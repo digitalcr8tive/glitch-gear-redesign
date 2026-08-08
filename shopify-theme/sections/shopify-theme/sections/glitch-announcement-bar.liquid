@@ -1,0 +1,19 @@
+{{ 'glitch-homepage.css' | asset_url | stylesheet_tag }}
+<div class="gh-announcement" role="region" aria-label="Store announcements">
+  <span>{% render 'glitch-icon', icon: 'truck' %}{{ section.settings.shipping_text }}</span>
+  <i aria-hidden="true"></i>
+  <span>{% render 'glitch-icon', icon: 'return' %}{{ section.settings.returns_text }}</span>
+</div>
+
+{% schema %}
+{
+  "name": "Glitch announcement bar",
+  "tag": "section",
+  "class": "gh-announcement-section",
+  "settings": [
+    { "type": "text", "id": "shipping_text", "label": "Shipping message", "default": "FREE U.S. SHIPPING ON ORDERS $75+" },
+    { "type": "text", "id": "returns_text", "label": "Returns message", "default": "EASY 30-DAY RETURNS" }
+  ],
+  "presets": [{ "name": "Glitch announcement bar" }]
+}
+{% endschema %}
