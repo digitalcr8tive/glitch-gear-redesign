@@ -26,6 +26,10 @@ const state = {
   wishlist: readLocal("glitch-wishlist", []),
 };
 
+const isolatedProductImages = new Map();
+const productImageObserver = new MutationObserver(() => queueProductImageIsolation());
+productImageObserver.observe(document.body, { childList: true, subtree: true });
+
 app.innerHTML = `
   <div class="loading-screen">
     <div class="loading-indicator">Initializing storefront</div>
@@ -38,6 +42,7 @@ try {
   bindEvents();
   render();
   renderCart();
+  queueProductImageIsolation();
 } catch (error) {
   console.error(error);
   app.innerHTML = `
@@ -50,6 +55,155 @@ try {
       </div>
     </div>
   `;
+}
+
+function queueProductImageIsolation() {
+  document.querySelectorAll(".product-media img, .product-gallery img, .cart-item img").forEach((image) => {
+    if (image.dataset.isolationState) return;
+    const source = image.currentSrc || image.src;
+    if (!source || source.startsWith("data:")) return;
+
+    image.dataset.isolationState = "processing";
+    image.classList.add("product-image-isolating");
+    const maxDimension = image.closest(".product-gallery") ? 900 : 520;
+
+    isolateProductImage(source, maxDimension)
+      .then((isolatedSource) => {
+        if (!isolatedSource || !image.isConnected) return;
+        image.src = isolatedSource;
+        image.removeAttribute("srcset");
+        image.dataset.isolationState = "complete";
+        image.classList.remove("product-image-isolating");
+        image.classList.add("product-image-isolated");
+      })
+      .catch(() => {
+        image.dataset.isolationState = "failed";
+        image.classList.remove("product-image-isolating");
+      });
+  });
+}
+
+function isolateProductImage(source, maxDimension) {
+  const cacheKey = `${source}|${maxDimension}`;
+  if (isolatedProductImages.has(cacheKey)) return isolatedProductImages.get(cacheKey);
+
+  const task = new Promise((resolve, reject) => {
+    const sourceImage = new Image();
+    sourceImage.crossOrigin = "anonymous";
+    sourceImage.decoding = "async";
+    sourceImage.onload = () => {
+      try {
+        const scale = Math.min(1, maxDimension / Math.max(sourceImage.naturalWidth, sourceImage.naturalHeight));
+        const width = Math.max(1, Math.round(sourceImage.naturalWidth * scale));
+        const height = Math.max(1, Math.round(sourceImage.naturalHeight * scale));
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const context = canvas.getContext("2d", { willReadFrequently: true });
+        context.drawImage(sourceImage, 0, 0, width, height);
+
+        const frame = context.getImageData(0, 0, width, height);
+        removeConnectedStudioBackground(frame.data, width, height);
+        context.putImageData(frame, 0, 0);
+        resolve(canvas.toDataURL("image/png"));
+      } catch (error) {
+        reject(error);
+      }
+    };
+    sourceImage.onerror = reject;
+    sourceImage.src = source;
+  });
+
+  isolatedProductImages.set(cacheKey, task);
+  return task;
+}
+
+function removeConnectedStudioBackground(pixels, width, height) {
+  const pixelCount = width * height;
+  const background = new Uint8Array(pixelCount);
+  const queue = new Int32Array(pixelCount);
+  let queueStart = 0;
+  let queueEnd = 0;
+
+  const cornerRadius = Math.max(2, Math.round(Math.min(width, height) * 0.025));
+  let seedRed = 0;
+  let seedGreen = 0;
+  let seedBlue = 0;
+  let seedCount = 0;
+  const sampleCorner = (startX, startY) => {
+    for (let y = startY; y < startY + cornerRadius; y += 1) {
+      for (let x = startX; x < startX + cornerRadius; x += 1) {
+        const offset = (y * width + x) * 4;
+        seedRed += pixels[offset];
+        seedGreen += pixels[offset + 1];
+        seedBlue += pixels[offset + 2];
+        seedCount += 1;
+      }
+    }
+  };
+  sampleCorner(0, 0);
+  sampleCorner(width - cornerRadius, 0);
+  sampleCorner(0, height - cornerRadius);
+  sampleCorner(width - cornerRadius, height - cornerRadius);
+  seedRed /= seedCount;
+  seedGreen /= seedCount;
+  seedBlue /= seedCount;
+
+  const isStudioPixel = (index) => {
+    const offset = index * 4;
+    const red = pixels[offset];
+    const green = pixels[offset + 1];
+    const blue = pixels[offset + 2];
+    const alpha = pixels[offset + 3];
+    if (alpha < 16) return true;
+
+    const seedDistance = Math.hypot(red - seedRed, green - seedGreen, blue - seedBlue);
+    const maximum = Math.max(red, green, blue);
+    const minimum = Math.min(red, green, blue);
+    const neutralStudioTone = maximum - minimum < 34 && (red + green + blue) / 3 > 164;
+    return seedDistance < 70 || neutralStudioTone;
+  };
+
+  const enqueue = (index) => {
+    if (index < 0 || index >= pixelCount || background[index] || !isStudioPixel(index)) return;
+    background[index] = 1;
+    queue[queueEnd] = index;
+    queueEnd += 1;
+  };
+
+  for (let x = 0; x < width; x += 1) {
+    enqueue(x);
+    enqueue((height - 1) * width + x);
+  }
+  for (let y = 1; y < height - 1; y += 1) {
+    enqueue(y * width);
+    enqueue(y * width + width - 1);
+  }
+
+  while (queueStart < queueEnd) {
+    const index = queue[queueStart];
+    queueStart += 1;
+    const x = index % width;
+    if (x > 0) enqueue(index - 1);
+    if (x < width - 1) enqueue(index + 1);
+    if (index >= width) enqueue(index - width);
+    if (index < pixelCount - width) enqueue(index + width);
+  }
+
+  for (let index = 0; index < pixelCount; index += 1) {
+    const alphaOffset = index * 4 + 3;
+    if (background[index]) {
+      pixels[alphaOffset] = 0;
+      continue;
+    }
+    const x = index % width;
+    const touchesBackground =
+      (x > 0 && background[index - 1]) ||
+      (x < width - 1 && background[index + 1]) ||
+      (index >= width && background[index - width]) ||
+      (index < pixelCount - width && background[index + width]);
+    if (touchesBackground) pixels[alphaOffset] = Math.min(pixels[alphaOffset], 205);
+  }
 }
 
 function bindEvents() {
