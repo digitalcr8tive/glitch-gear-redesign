@@ -3150,8 +3150,9 @@ body {
   background-color: #292d28;
 }
 
-.product-media img,
-.product-gallery img,
+.product-card .product-media img,
+.featured-card .product-media img,
+.product-gallery figure img,
 .cart-item img {
   mix-blend-mode: multiply;
   filter: contrast(1.08) saturate(0.96);
@@ -3576,18 +3577,19 @@ body {
 .product-gallery figure,
 .cart-item img {
   background:
-    radial-gradient(circle at 50% 42%, #505650 0, #414741 54%, #2d322e 100%);
+    radial-gradient(circle at 50% 42%, #777d77 0, #646a64 54%, #454a46 100%);
 }
 
-.product-media img,
-.product-gallery img,
+.product-card .product-media img,
+.featured-card .product-media img,
+.product-gallery figure img,
 .cart-item img {
   opacity: 1;
-  mix-blend-mode: normal;
+  mix-blend-mode: multiply;
   filter:
-    contrast(0.55)
-    brightness(1.6)
-    saturate(1.14)
+    contrast(0.6)
+    brightness(1.75)
+    saturate(1.8)
     drop-shadow(0 7px 9px rgba(0, 0, 0, 0.32));
 }
 
