@@ -14,8 +14,9 @@ Merge these folders into the business's current Shopify theme, then configure th
 4. Select the six collection blocks and optional collection logos.
 5. Select the real Featured Drops collection.
 6. Leave the countdown end date blank unless an active drop has a verified end date.
-7. Verify the shipping and returns wording against the current business policies.
-8. Assign four Shopify navigation menus to the footer columns.
-9. Add only Facebook, Instagram, X, and Etsy URLs.
+7. Assign four Shopify navigation menus to the footer columns.
+8. Add only Facebook, Instagram, X, and Etsy URLs.
+
+The four-item benefits strip beneath the campaign banner has been removed from the homepage template.
 
 The bundled banner is original artwork created for this project and contains no recognizable third-party characters or visible eyes.
