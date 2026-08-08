@@ -1,0 +1,24 @@
+{%- liquid
+  assign banner_image = section.settings.image
+  assign overlay = section.settings.overlay | divided_by: 100.0
+-%}
+<section class="gh-banner gh-align-{{ section.settings.alignment }}" style="--gh-overlay:{{ overlay }};--gh-mobile-focus:{{ section.settings.mobile_focal_point }};{% if banner_image != blank %}--gh-banner:url('{{ banner_image | image_url: width: 2400 }}'){% else %}--gh-banner:url('{{ 'glitch-brand-banner.webp' | asset_url }}'){% endif %}" aria-label="{{ section.settings.line_one }} {{ section.settings.line_two }}">
+  <h2>{{ section.settings.line_one }}<br>{{ section.settings.line_two }}</h2>
+</section>
+
+{% schema %}
+{
+  "name": "Glitch cinematic banner",
+  "tag": "section",
+  "class": "gh-banner-section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Banner image" },
+    { "type": "text", "id": "line_one", "label": "First line", "default": "ICONIC WORLDS." },
+    { "type": "text", "id": "line_two", "label": "Second line", "default": "EVERYDAY GEAR." },
+    { "type": "range", "id": "overlay", "label": "Overlay strength", "min": 0, "max": 80, "step": 5, "unit": "%", "default": 30 },
+    { "type": "select", "id": "alignment", "label": "Text alignment", "default": "center", "options": [{"value":"left","label":"Left"},{"value":"center","label":"Center"},{"value":"right","label":"Right"}] },
+    { "type": "select", "id": "mobile_focal_point", "label": "Mobile focal point", "default": "center", "options": [{"value":"left","label":"Left"},{"value":"center","label":"Center"},{"value":"right","label":"Right"}] }
+  ],
+  "presets": [{ "name": "Glitch cinematic banner" }]
+}
+{% endschema %}
