@@ -1,0 +1,35 @@
+<section class="gh-collections" aria-labelledby="GlitchCollectionsTitle-{{ section.id }}">
+  <header><h2 id="GlitchCollectionsTitle-{{ section.id }}">{{ section.settings.heading }}</h2><a href="{{ section.settings.view_all_url | default: routes.collections_url }}">{{ section.settings.view_all_label }} →</a></header>
+  <div class="gh-collection-wrap">
+    <button type="button" data-gh-scroll="-1" aria-label="Scroll collections left">‹</button>
+    <div class="gh-collection-rail" data-gh-rail tabindex="0">
+      {%- for block in section.blocks -%}{% render 'glitch-collection-card', block: block, section: section %}{%- endfor -%}
+    </div>
+    <button type="button" data-gh-scroll="1" aria-label="Scroll collections right">›</button>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Glitch iconic collections",
+  "tag": "section",
+  "class": "gh-collections-section",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "EXPLORE ICONIC COLLECTIONS" },
+    { "type": "text", "id": "view_all_label", "label": "View all label", "default": "VIEW ALL COLLECTIONS" },
+    { "type": "url", "id": "view_all_url", "label": "View all URL" },
+    { "type": "text", "id": "action_label", "label": "Card action label", "default": "VIEW COLLECTION" }
+  ],
+  "blocks": [
+    { "type": "collection", "name": "Collection", "settings": [
+      { "type": "collection", "id": "collection", "label": "Collection" },
+      { "type": "image_picker", "id": "image_override", "label": "Custom image override" },
+      { "type": "image_picker", "id": "logo", "label": "Optional collection logo" },
+      { "type": "text", "id": "custom_title", "label": "Custom title" },
+      { "type": "url", "id": "link_override", "label": "Link override" }
+    ] }
+  ],
+  "presets": [{ "name": "Glitch iconic collections", "blocks": [{"type":"collection"},{"type":"collection"},{"type":"collection"},{"type":"collection"},{"type":"collection"},{"type":"collection"}] }]
+}
+{% endschema %}
