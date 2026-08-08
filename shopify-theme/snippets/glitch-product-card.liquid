@@ -1,0 +1,32 @@
+{%- liquid
+  assign selected_variant = product.selected_or_first_available_variant
+  assign single_variant = false
+  if product.has_only_default_variant and selected_variant.available
+    assign single_variant = true
+  endif
+-%}
+<article class="gh-product-card">
+  <a class="gh-product-media" href="{{ product.url }}" aria-label="View {{ product.title | escape }}">
+    {%- if product.featured_image != blank -%}
+      {{ product.featured_image | image_url: width: 620 | image_tag: widths: '220,320,440,620', sizes: '(min-width: 1200px) 250px, 218px', loading: 'lazy', alt: product.featured_image.alt | default: product.title }}
+    {%- endif -%}
+  </a>
+  <div class="gh-product-body">
+    <a href="{{ product.url }}">
+      <h3>{{ product.title }}</h3>
+      <span>{{ product.price | money }}</span>
+    </a>
+    {%- if single_variant -%}
+      <product-form>
+        {%- form 'product', product, class: 'gh-quick-form', data-product-form: '' -%}
+          <input type="hidden" name="id" value="{{ selected_variant.id }}">
+          <button class="gh-cart-action" type="submit" name="add" aria-label="Add {{ product.title | escape }} to cart">
+            {% render 'glitch-icon', icon: 'cart' %}
+          </button>
+        {%- endform -%}
+      </product-form>
+    {%- else -%}
+      <a class="gh-cart-action" href="{{ product.url }}" aria-label="Choose options for {{ product.title | escape }}">→</a>
+    {%- endif -%}
+  </div>
+</article>
