@@ -27,5 +27,5 @@
 .gh-hero-model{background:#040605}
 .gh-hero-model:after{background:linear-gradient(90deg,var(--gh-bg),transparent 14%,transparent 86%,var(--gh-bg))}
 .gh-hero-model img{object-fit:contain;object-position:center bottom;mix-blend-mode:normal;filter:none}
-.gh-product-media{background:radial-gradient(circle at 50% 42%,#505650 0,#414741 54%,#2d322e 100%)}
-.gh-product-media img{padding:6px 12px;mix-blend-mode:normal;filter:contrast(.55) brightness(1.6) saturate(1.14) drop-shadow(0 7px 9px rgba(0,0,0,.32))}
+.gh-product-media{background:radial-gradient(circle at 50% 42%,#777d77 0,#646a64 54%,#454a46 100%)}
+.gh-product-media img{padding:6px 12px;mix-blend-mode:multiply;filter:contrast(.6) brightness(1.75) saturate(1.8) drop-shadow(0 7px 9px rgba(0,0,0,.32))}
