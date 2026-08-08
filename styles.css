@@ -3577,7 +3577,7 @@ body {
 .product-gallery figure,
 .cart-item img {
   background:
-    radial-gradient(circle at 50% 42%, #777d77 0, #646a64 54%, #454a46 100%);
+    radial-gradient(circle at 50% 42%, #4d534e 0, #3a3f3b 54%, #262a27 100%);
 }
 
 .product-card .product-media img,
@@ -3597,9 +3597,28 @@ body {
   padding: 6px 12px;
 }
 
+.product-card .product-media img.product-image-isolated,
+.featured-card .product-media img.product-image-isolated,
+.product-gallery figure img.product-image-isolated,
+.cart-item img.product-image-isolated {
+  opacity: 1;
+  mix-blend-mode: normal;
+  filter:
+    brightness(1.08)
+    contrast(1.04)
+    saturate(1.08)
+    drop-shadow(0 8px 12px rgba(0, 0, 0, 0.42));
+}
+
 /* The scene treatment stays, but the supplied people remain untouched at every breakpoint. */
 .hero-model {
   background-color: #040605;
+  background-image:
+    var(--model-image),
+    radial-gradient(ellipse at 50% 48%, rgba(175, 204, 47, 0.26), transparent 46%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='42' height='36' viewBox='0 0 42 36'%3E%3Cpath d='M10 1h11l9 17-9 17H10L1 18zM31 1h10l9 17-9 17H31l-9-17z' fill='none' stroke='%23a3c400' stroke-opacity='.13'/%3E%3C/svg%3E"),
+    linear-gradient(rgba(163, 196, 0, 0.025) 1px, transparent 1px);
+  background-repeat: no-repeat, no-repeat, repeat, repeat;
   background-blend-mode: normal;
   filter: none;
   mask-image: none;
@@ -3633,7 +3652,7 @@ body {
 
   .hero-model {
     background-color: #040605;
-    background-repeat: no-repeat, no-repeat, repeat;
+    background-repeat: no-repeat, no-repeat, repeat, repeat;
     background-blend-mode: normal;
     filter: none;
     mask-image: none;
@@ -3643,18 +3662,20 @@ body {
     background-image:
       url("assets/hero-woman.png"),
       radial-gradient(ellipse at 60% 48%, rgba(175, 204, 47, 0.28), transparent 46%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='42' height='36' viewBox='0 0 42 36'%3E%3Cpath d='M10 1h11l9 17-9 17H10L1 18zM31 1h10l9 17-9 17H31l-9-17z' fill='none' stroke='%23a3c400' stroke-opacity='.13'/%3E%3C/svg%3E"),
       linear-gradient(rgba(163, 196, 0, 0.025) 1px, transparent 1px);
-    background-position: 58% bottom, center, center;
-    background-size: auto 100%, auto, 26px 26px;
+    background-position: 58% bottom, center, center, center;
+    background-size: auto 100%, auto, 42px 36px, 26px 26px;
   }
 
   .hero-model.right {
     background-image:
       url("assets/hero-man.png"),
       radial-gradient(ellipse at 42% 48%, rgba(175, 204, 47, 0.26), transparent 46%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='42' height='36' viewBox='0 0 42 36'%3E%3Cpath d='M10 1h11l9 17-9 17H10L1 18zM31 1h10l9 17-9 17H31l-9-17z' fill='none' stroke='%23a3c400' stroke-opacity='.13'/%3E%3C/svg%3E"),
       linear-gradient(rgba(163, 196, 0, 0.025) 1px, transparent 1px);
-    background-position: 42% bottom, center, center;
-    background-size: auto 100%, auto, 26px 26px;
+    background-position: 42% bottom, center, center, center;
+    background-size: auto 100%, auto, 42px 36px, 26px 26px;
   }
 
   .hero-model::before {
