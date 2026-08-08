@@ -3576,23 +3576,36 @@ body {
 .product-gallery figure,
 .cart-item img {
   background:
-    radial-gradient(circle at 50% 47%, #4b514a 0, #3d423c 46%, #30342f 76%, #252824 100%);
+    radial-gradient(circle at 50% 42%, #505650 0, #414741 54%, #2d322e 100%);
 }
 
 .product-media img,
 .product-gallery img,
 .cart-item img {
   opacity: 1;
-  mix-blend-mode: multiply;
+  mix-blend-mode: normal;
   filter:
-    brightness(1.62)
-    contrast(1.08)
-    saturate(1.12)
-    drop-shadow(0 8px 12px rgba(0, 0, 0, 0.34));
+    contrast(0.55)
+    brightness(1.6)
+    saturate(1.14)
+    drop-shadow(0 7px 9px rgba(0, 0, 0, 0.32));
 }
 
 .featured-card .product-media img {
-  padding: 3px 10px;
+  padding: 6px 12px;
+}
+
+/* The scene treatment stays, but the supplied people remain untouched at every breakpoint. */
+.hero-model {
+  background-color: #040605;
+  background-blend-mode: normal;
+  filter: none;
+  mask-image: none;
+}
+
+.hero-model.left,
+.hero-model.right {
+  background-size: auto 100%;
 }
 
 @media (min-width: 1200px) {
@@ -3617,27 +3630,39 @@ body {
   }
 
   .hero-model {
-    background-color: #050705;
-    background-image: url("assets/reference-homepage-1456.png") !important;
-    background-size: 1448px 1086px;
-    background-repeat: no-repeat;
+    background-color: #040605;
+    background-repeat: no-repeat, no-repeat, repeat;
     background-blend-mode: normal;
     filter: none;
     mask-image: none;
   }
 
   .hero-model.left {
-    background-position: 0 -80px;
+    background-image:
+      url("assets/hero-woman.png"),
+      radial-gradient(ellipse at 60% 48%, rgba(175, 204, 47, 0.28), transparent 46%),
+      linear-gradient(rgba(163, 196, 0, 0.025) 1px, transparent 1px);
+    background-position: 58% bottom, center, center;
+    background-size: auto 100%, auto, 26px 26px;
   }
 
   .hero-model.right {
-    background-position: -1014px -80px;
+    background-image:
+      url("assets/hero-man.png"),
+      radial-gradient(ellipse at 42% 48%, rgba(175, 204, 47, 0.26), transparent 46%),
+      linear-gradient(rgba(163, 196, 0, 0.025) 1px, transparent 1px);
+    background-position: 42% bottom, center, center;
+    background-size: auto 100%, auto, 26px 26px;
   }
 
-  .hero-model::before,
+  .hero-model::before {
+    display: block;
+    background: linear-gradient(90deg, #020304 0, transparent 14%, transparent 86%, #020304 100%);
+  }
+
   .hero-frame,
   .hero-stat {
-    display: none;
+    display: block;
   }
 
   .home-collection-card {
