@@ -1,0 +1,48 @@
+<footer class="gh-footer">
+  <div class="gh-footer-inner">
+    <div class="gh-footer-brand">
+      <a href="{{ routes.root_url }}" aria-label="{{ shop.name }} home">
+        {%- if section.settings.logo != blank -%}{{ section.settings.logo | image_url: width: 380 | image_tag: widths: '190,280,380', loading: 'lazy', alt: shop.name }}{%- else -%}<span class="gh-logo-fallback">GLITCH<small>GAMING APPAREL</small></span>{%- endif -%}
+      </a>
+      <div class="gh-socials">
+        {%- if section.settings.facebook_url != blank -%}<a href="{{ section.settings.facebook_url }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook">{% render 'glitch-icon', icon: 'facebook' %}</a>{%- endif -%}
+        {%- if section.settings.instagram_url != blank -%}<a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram">{% render 'glitch-icon', icon: 'instagram' %}</a>{%- endif -%}
+        {%- if section.settings.x_url != blank -%}<a href="{{ section.settings.x_url }}" target="_blank" rel="noopener noreferrer" aria-label="X">{% render 'glitch-icon', icon: 'x' %}</a>{%- endif -%}
+        {%- if section.settings.etsy_url != blank -%}<a href="{{ section.settings.etsy_url }}" target="_blank" rel="noopener noreferrer" aria-label="Etsy">{% render 'glitch-icon', icon: 'etsy' %}</a>{%- endif -%}
+      </div>
+    </div>
+    {%- for block in section.blocks -%}
+      <details class="gh-footer-menu" open {{ block.shopify_attributes }}>
+        <summary><h2>{{ block.settings.heading }}</h2></summary>
+        {%- for link in block.settings.menu.links -%}<a href="{{ link.url }}">{{ link.title }}</a>{%- endfor -%}
+      </details>
+    {%- endfor -%}
+  </div>
+  <div class="gh-copyright">© {{ 'now' | date: '%Y' }} GLITCH GAMING APPAREL. ALL RIGHTS RESERVED.</div>
+</footer>
+
+{% schema %}
+{
+  "name": "Glitch footer",
+  "tag": "section",
+  "class": "gh-footer-section",
+  "max_blocks": 4,
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Official logo" },
+    { "type": "url", "id": "facebook_url", "label": "Facebook URL" },
+    { "type": "url", "id": "instagram_url", "label": "Instagram URL" },
+    { "type": "url", "id": "x_url", "label": "X URL" },
+    { "type": "url", "id": "etsy_url", "label": "Etsy URL" }
+  ],
+  "blocks": [{ "type": "menu", "name": "Menu column", "settings": [
+    { "type": "text", "id": "heading", "label": "Heading" },
+    { "type": "link_list", "id": "menu", "label": "Menu" }
+  ] }],
+  "presets": [{ "name": "Glitch footer", "blocks": [
+    {"type":"menu","settings":{"heading":"SHOP"}},
+    {"type":"menu","settings":{"heading":"COLLECTIONS"}},
+    {"type":"menu","settings":{"heading":"SUPPORT"}},
+    {"type":"menu","settings":{"heading":"COMPANY"}}
+  ] }]
+}
+{% endschema %}
