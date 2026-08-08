@@ -3569,3 +3569,122 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* Reference-correction pass: exact supplied game art, natural hero people, visible products. */
+.product-card:not(.featured-card) .product-media,
+.featured-card .product-media,
+.product-gallery figure,
+.cart-item img {
+  background:
+    radial-gradient(circle at 50% 47%, #4b514a 0, #3d423c 46%, #30342f 76%, #252824 100%);
+}
+
+.product-media img,
+.product-gallery img,
+.cart-item img {
+  opacity: 1;
+  mix-blend-mode: multiply;
+  filter:
+    brightness(1.62)
+    contrast(1.08)
+    saturate(1.12)
+    drop-shadow(0 8px 12px rgba(0, 0, 0, 0.34));
+}
+
+.featured-card .product-media img {
+  padding: 3px 10px;
+}
+
+@media (min-width: 1200px) {
+  .site-header,
+  .hero,
+  .home-collections,
+  .home-drops,
+  .campaign-banner,
+  .site-footer {
+    width: min(100%, 1448px);
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .hero {
+    background:
+      linear-gradient(rgba(163, 196, 0, 0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(163, 196, 0, 0.025) 1px, transparent 1px),
+      radial-gradient(ellipse at 50% 48%, rgba(66, 79, 10, 0.2), transparent 34%),
+      #040605;
+    background-size: 26px 26px, 26px 26px, auto, auto;
+  }
+
+  .hero-model {
+    background-color: #050705;
+    background-image: url("assets/reference-homepage-1456.png") !important;
+    background-size: 1448px 1086px;
+    background-repeat: no-repeat;
+    background-blend-mode: normal;
+    filter: none;
+    mask-image: none;
+  }
+
+  .hero-model.left {
+    background-position: 0 -80px;
+  }
+
+  .hero-model.right {
+    background-position: -1014px -80px;
+  }
+
+  .hero-model::before,
+  .hero-frame,
+  .hero-stat {
+    display: none;
+  }
+
+  .home-collection-card {
+    background-color: #050705;
+    background-image: url("assets/reference-homepage-1456.png");
+    background-size: 1448px 1086px;
+    background-repeat: no-repeat;
+  }
+
+  .home-collections {
+    padding-right: 92px;
+    padding-left: 92px;
+  }
+
+  .home-collection-card img,
+  .home-collection-card strong,
+  .home-collection-card .collection-action,
+  .home-collection-card::after {
+    opacity: 0;
+  }
+
+  .home-collection-card.synthetic img {
+    opacity: 0;
+    filter: none;
+  }
+
+  .home-collection-card.collection-portal {
+    background-position: -92px -420px;
+  }
+
+  .home-collection-card.collection-fallout-4 {
+    background-position: -330px -420px;
+  }
+
+  .home-collection-card.collection-bioshock {
+    background-position: -545px -420px;
+  }
+
+  .home-collection-card.collection-half-life-2 {
+    background-position: -760px -420px;
+  }
+
+  .home-collection-card.collection-gears-of-war {
+    background-position: -978px -420px;
+  }
+
+  .home-collection-card.collection-left-4-dead-2 {
+    background-position: -1185px -420px;
+  }
+}
