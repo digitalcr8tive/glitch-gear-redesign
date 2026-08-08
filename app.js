@@ -6,6 +6,16 @@ const cartFooterRoot = document.querySelector("[data-cart-footer]");
 const toastRoot = document.querySelector("[data-toast]");
 const nav = document.querySelector("#primary-navigation");
 const menuButton = document.querySelector("[data-action='toggle-menu']");
+document.querySelector("[data-current-year]").textContent = new Date().getFullYear();
+const footerMobileQuery = matchMedia("(max-width: 767px)");
+const syncFooterMenus = () => {
+  document.querySelectorAll(".footer-menu").forEach((menu) => {
+    if (footerMobileQuery.matches) menu.removeAttribute("open");
+    else menu.setAttribute("open", "");
+  });
+};
+syncFooterMenus();
+footerMobileQuery.addEventListener("change", syncFooterMenus);
 
 let store;
 let renderLimit = 36;
@@ -67,6 +77,12 @@ function bindEvents() {
     if (action === "quick-add") quickAdd(actionElement.dataset.handle);
     if (action === "add-product") addSelectedProduct(actionElement.dataset.handle);
     if (action === "toggle-wishlist") toggleWishlist(actionElement.dataset.handle);
+    if (action === "scroll-collections") {
+      document.querySelector("[data-collection-rail]")?.scrollBy({
+        left: Number(actionElement.dataset.direction) * 260,
+        behavior: "smooth",
+      });
+    }
     if (action === "cart-increase") changeQuantity(actionElement.dataset.variant, 1);
     if (action === "cart-decrease") changeQuantity(actionElement.dataset.variant, -1);
     if (action === "cart-remove") removeCartItem(actionElement.dataset.variant);
@@ -147,19 +163,26 @@ function render() {
 
 function renderHome() {
   document.title = "Glitch Gaming Apparel | Wear the Game";
+  const bioshockProduct = store.products.find((product) =>
+    product.tags.some((tag) => tag.toLowerCase().includes("bioshock")),
+  );
   const orderedCollections = [
-    "portal",
-    "fallout-4",
-    "half-life-2",
-    "gears-of-war",
-    "left-4-dead-2",
-    "assassins-unity",
-  ]
-    .map((handle) => collectionByHandle(handle))
-    .filter(Boolean);
+    collectionByHandle("portal"),
+    collectionByHandle("fallout-4"),
+    {
+      title: "BioShock",
+      handle: "bioshock",
+      image: bioshockProduct?.images[0]?.src || "",
+      href: "#/shop?q=bioshock",
+      synthetic: true,
+    },
+    collectionByHandle("half-life-2"),
+    collectionByHandle("gears-of-war"),
+    collectionByHandle("left-4-dead-2"),
+  ].filter(Boolean);
   const featuredHandles = [
-    "aperture-messenger-bag",
-    "1940s-aperture-fixtures-tee",
+    "aperture-laboratories-hat-black",
+    "fallout-4-vault-boy-mascot-tee",
     "half-life-lambda-hat",
     "gears-of-war-crimson-omen-logo-tee",
     "left-4-dead-tee",
@@ -167,23 +190,20 @@ function renderHome() {
   const featured = featuredHandles
     .map((handle) => productByHandle(handle))
     .filter(Boolean);
-  const availableCount = store.products.filter(
-    (product) => product.available && product.images.length,
-  ).length;
-
   app.innerHTML = `
     <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-model left" role="img" aria-label="Model wearing a Fallout Vault Boy T-shirt" style="background-image:url('${escapeAttr(store.brand.heroModels[0])}')"></div>
+      <div class="hero-frame hero-frame-left" aria-hidden="true"></div>
+      <div class="hero-model left" role="img" aria-label="Woman wearing a Fallout Vault Boy T-shirt" style="--model-image:url('${escapeAttr(store.brand.heroModels[0])}')"></div>
       <div class="hero-copy">
-        <span class="hero-kicker">Official worlds. Everyday loadout.</span>
-        <h1 id="hero-title">WEAR <span>THE GAME.</span></h1>
-        <p>Original and licensed apparel made by gamers for the games you have conquered.</p>
+        <h1 id="hero-title"><span class="hero-line-white">WEAR</span><span class="hero-line-lime">THE GAME.</span></h1>
+        <p>Game-inspired apparel for players.<br />Designed to stand out. Made to last.</p>
         <div class="hero-actions">
           <a class="primary-button" href="#/shop">Shop all gear <span aria-hidden="true">→</span></a>
           <a class="secondary-button" href="#/collections">Explore collections</a>
         </div>
       </div>
-      <div class="hero-model right" role="img" aria-label="Model wearing a Portal Songbird T-shirt" style="background-image:url('${escapeAttr(store.brand.heroModels[1])}')"></div>
+      <div class="hero-model right" role="img" aria-label="Man wearing a Portal Songbird T-shirt" style="--model-image:url('${escapeAttr(store.brand.heroModels[1])}')"></div>
+      <div class="hero-frame hero-frame-right" aria-hidden="true"></div>
       <div class="hero-stat" aria-hidden="true">
         <span>XP +250</span>
         <span>LVL 20</span>
@@ -191,41 +211,41 @@ function renderHome() {
       </div>
     </section>
 
-    <section class="section-shell compact" aria-labelledby="collections-title">
+    <section class="home-collections" aria-labelledby="collections-title">
       <div class="section-header">
-        <div>
-          <h2 id="collections-title">Explore iconic collections</h2>
-        </div>
+        <h2 id="collections-title">Explore iconic collections</h2>
         <a class="section-link" href="#/collections">View all collections →</a>
       </div>
-      <div class="collection-rail">
-        ${orderedCollections.map(collectionCard).join("")}
+      <div class="collection-carousel">
+        <button class="rail-arrow rail-arrow-left" type="button" data-action="scroll-collections" data-direction="-1" aria-label="Scroll collections left">‹</button>
+        <div class="collection-rail" data-collection-rail>
+          ${orderedCollections.map(homeCollectionCard).join("")}
+        </div>
+        <button class="rail-arrow rail-arrow-right" type="button" data-action="scroll-collections" data-direction="1" aria-label="Scroll collections right">›</button>
       </div>
     </section>
 
-    <section class="section-shell compact" aria-labelledby="drops-title">
+    <section class="home-drops" aria-labelledby="drops-title">
       <div class="drops-panel">
         <div class="section-header">
-          <div>
-            <h2 id="drops-title">Featured gear <span class="drop-timer"><b>LIVE</b> ${availableCount} ITEMS AVAILABLE</span></h2>
-          </div>
+          <h2 id="drops-title">Featured drops <span class="new-badge">NEW</span></h2>
         </div>
         <div class="featured-grid">
-          ${featured.map(productCard).join("")}
+          ${featured.map((product) => productCard(product, true)).join("")}
         </div>
-        <a class="section-link" href="#/shop?sort=newest" style="width:100%; padding: 0 18px 16px;">View all new arrivals →</a>
+        <a class="drops-link" href="#/shop?sort=newest">View all new arrivals <span aria-hidden="true">→</span></a>
       </div>
     </section>
 
-    <section class="campaign-banner" style="--campaign-image:url('${escapeAttr(store.brand.heroModels[2])}')">
+    <section class="campaign-banner">
       <h2>ICONIC WORLDS.<br />EVERYDAY GEAR.</h2>
     </section>
 
     <section class="benefit-strip" aria-label="Storefront benefits">
-      ${benefit("◈", "Current catalog", `${store.products.length} sourced products`)}
-      ${benefit("⌁", "Real variants", "Live sizes and availability")}
-      ${benefit("⌘", "Built by gamers", "Original and licensed gear")}
-      ${benefit("▣", "Shopify ready", "Checkout connects after approval")}
+      ${benefit("truck", "Free U.S. shipping", "On orders $75+")}
+      ${benefit("return", "Easy returns", "30-day hassle free")}
+      ${benefit("controller", "Gamer approved", "Designed by gamers")}
+      ${benefit("shield", "Secure checkout", "Shop with confidence")}
     </section>
   `;
 }
@@ -499,25 +519,36 @@ function collectionCard(collection) {
   `;
 }
 
-function productCard(product) {
+function homeCollectionCard(collection) {
+  const href = collection.href || `#/collection/${encodeURIComponent(collection.handle)}`;
+  return `
+    <a class="collection-card home-collection-card ${collection.synthetic ? "synthetic" : ""}" href="${escapeAttr(href)}" aria-label="View ${escapeAttr(collection.title)} collection">
+      ${collection.image ? `<img src="${escapeAttr(collection.image)}" alt="" loading="lazy" />` : ""}
+      <strong>${escapeHTML(collection.title)}</strong>
+      <span class="collection-action">View collection <b aria-hidden="true">→</b></span>
+    </a>
+  `;
+}
+
+function productCard(product, featured = false) {
   const image = product.images[0];
   const multiplePrices = product.priceMin !== product.priceMax;
   const availableVariants = product.variants.filter((variant) => variant.available);
   const canQuickAdd = availableVariants.length === 1;
   return `
-    <article class="product-card">
+    <article class="product-card ${featured ? "featured-card" : ""}">
       <a class="product-media" href="#/product/${encodeURIComponent(product.handle)}" aria-label="View ${escapeAttr(product.title)}">
-        <span class="availability-badge ${product.available ? "" : "sold-out"}">${product.available ? "Available" : "Sold out"}</span>
+        ${featured ? "" : `<span class="availability-badge ${product.available ? "" : "sold-out"}">${product.available ? "Available" : "Sold out"}</span>`}
         ${image ? `<img src="${escapeAttr(image.src)}" alt="${escapeAttr(image.alt || product.title)}" loading="lazy" />` : ""}
       </a>
-      <button class="wishlist-toggle ${isWishlisted(product.handle) ? "active" : ""}" type="button" data-action="toggle-wishlist" data-handle="${escapeAttr(product.handle)}" aria-label="${isWishlisted(product.handle) ? "Remove" : "Add"} ${escapeAttr(product.title)} ${isWishlisted(product.handle) ? "from" : "to"} wishlist" aria-pressed="${isWishlisted(product.handle)}">${isWishlisted(product.handle) ? "♥" : "♡"}</button>
+      ${featured ? "" : `<button class="wishlist-toggle ${isWishlisted(product.handle) ? "active" : ""}" type="button" data-action="toggle-wishlist" data-handle="${escapeAttr(product.handle)}" aria-label="${isWishlisted(product.handle) ? "Remove" : "Add"} ${escapeAttr(product.title)} ${isWishlisted(product.handle) ? "from" : "to"} wishlist" aria-pressed="${isWishlisted(product.handle)}">${isWishlisted(product.handle) ? "♥" : "♡"}</button>`}
       <div class="product-card-body">
         <a href="#/product/${encodeURIComponent(product.handle)}">
           <h3>${escapeHTML(product.title)}</h3>
           <div class="product-card-price">${multiplePrices ? "From " : ""}${formatPrice(product.priceMin)}</div>
         </a>
         ${product.available ? `
-          <${canQuickAdd ? "button" : "a"} class="quick-action" ${canQuickAdd ? `type="button" data-action="quick-add" data-handle="${escapeAttr(product.handle)}"` : `href="#/product/${encodeURIComponent(product.handle)}"`} aria-label="${canQuickAdd ? "Add" : "Choose options for"} ${escapeAttr(product.title)}">${canQuickAdd ? "+" : "→"}</${canQuickAdd ? "button" : "a"}>
+          <${canQuickAdd ? "button" : "a"} class="quick-action" ${canQuickAdd ? `type="button" data-action="quick-add" data-handle="${escapeAttr(product.handle)}"` : `href="#/product/${encodeURIComponent(product.handle)}"`} aria-label="${canQuickAdd ? "Add" : "Choose options for"} ${escapeAttr(product.title)}">${featured ? cartGlyph() : canQuickAdd ? "+" : "→"}</${canQuickAdd ? "button" : "a"}>
         ` : `<a class="quick-action" href="#/product/${encodeURIComponent(product.handle)}" aria-label="View ${escapeAttr(product.title)}">→</a>`}
       </div>
     </article>
@@ -784,10 +815,24 @@ function formatPrice(value) {
 function benefit(icon, title, text) {
   return `
     <div class="benefit">
-      <span class="benefit-icon" aria-hidden="true">${icon}</span>
+      <span class="benefit-icon" aria-hidden="true">${trustIcon(icon)}</span>
       <div><strong>${title}</strong><span>${text}</span></div>
     </div>
   `;
+}
+
+function cartGlyph() {
+  return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h2l2.4 11.4a2 2 0 0 0 2 1.6h8.9a2 2 0 0 0 2-1.6L21 7H5"/><circle cx="9" cy="20" r="1.2"/><circle cx="18" cy="20" r="1.2"/></svg>`;
+}
+
+function trustIcon(name) {
+  const icons = {
+    truck: `<svg viewBox="0 0 32 32"><path d="M2 8h17v13H2zM19 12h6l5 5v4H19zM8 26a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm15 0a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/><path d="M4 4h11M1 12h7"/></svg>`,
+    return: `<svg viewBox="0 0 32 32"><path d="M8 10V3m0 0H1m7 0-5 5a13 13 0 1 1-1 15"/></svg>`,
+    controller: `<svg viewBox="0 0 32 32"><path d="M9 10h14a6 6 0 0 1 5.5 3.7l2.2 5.4a5 5 0 0 1-8.2 5.4L19 21h-6l-3.5 3.5a5 5 0 0 1-8.2-5.4l2.2-5.4A6 6 0 0 1 9 10Z"/><path d="M8 14v7M4.5 17.5h7M23 15v.1M26 19v.1"/></svg>`,
+    shield: `<svg viewBox="0 0 32 32"><path d="M16 2 28 7v8c0 8-5 13-12 15C9 28 4 23 4 15V7z"/><path d="m10 16 4 4 8-9"/></svg>`,
+  };
+  return icons[name] || "";
 }
 
 function supportItem(title, description, href, label) {
@@ -803,7 +848,7 @@ function emptyInline(title, description, href = "", label = "") {
   return `
     <div class="empty-state" style="min-height:320px">
       <span class="status-code">NO ITEMS</span>
-      <h1 style="font-size:clamp(2.4rem,6vw,4rem)">${escapeHTML(title)}</h1>
+      <h2 class="empty-state-heading">${escapeHTML(title)}</h2>
       <p>${escapeHTML(description)}</p>
       ${href ? `<a class="primary-button" href="${escapeAttr(href)}">${escapeHTML(label)}</a>` : ""}
     </div>
