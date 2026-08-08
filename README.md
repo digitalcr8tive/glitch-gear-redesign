@@ -12,6 +12,7 @@ The site is intentionally static so it can run on GitHub Pages. Product names, d
 - Full searchable product catalog with availability, types, collections, and sorting
 - Collection and product detail routes
 - Official product imagery and sizing chart, with product photos normalized onto consistent charcoal presentation bays
+- Exact supplied Portal, Fallout, BioShock, Half-Life, Gears of War, and Left 4 Dead collection artwork on the homepage rail
 - Persistent local cart and wishlist
 - Variant and sold-out handling
 - Responsive navigation and mobile storefront layouts
