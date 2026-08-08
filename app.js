@@ -274,7 +274,7 @@ function renderCurrentProductList() {
       <span>${products.length} ${products.length === 1 ? "item" : "items"}</span>
       <span>${params.get("available") === "1" ? "Available gear only" : "Available and archive gear"}</span>
     </div>
-    ${products.length ? `<div class="product-grid">${visible.map(productCard).join("")}</div>` : emptyInline("No matching gear", "Try a different title, collection, or category.")}
+    ${products.length ? `<div class="product-grid">${visible.map((product) => productCard(product)).join("")}</div>` : emptyInline("No matching gear", "Try a different title, collection, or category.")}
     ${products.length > visible.length ? `<div class="page-actions" style="margin-top:30px"><button class="secondary-button" type="button" data-action="load-more">Load more gear</button></div>` : ""}
   `;
 }
@@ -304,7 +304,7 @@ function renderCollection(handle) {
         <span>${products.length} ${products.length === 1 ? "item" : "items"}</span>
         <a class="section-link" href="#/collections">All collections →</a>
       </div>
-      ${products.length ? `<div class="product-grid">${products.map(productCard).join("")}</div>` : emptyInline("Collection empty", "No products are currently published in this collection.")}
+      ${products.length ? `<div class="product-grid">${products.map((product) => productCard(product)).join("")}</div>` : emptyInline("Collection empty", "No products are currently published in this collection.")}
     </section>
   `;
 }
@@ -471,7 +471,7 @@ function renderWishlist() {
   app.innerHTML = `
     ${pageHero("LOADOUT / SAVED", "Saved gear", "Keep a local shortlist while comparing products. Saved items stay on this device.")}
     <section class="section-shell">
-      ${products.length ? `<div class="product-grid">${products.map(productCard).join("")}</div>` : emptyInline("No saved gear yet", "Use the heart control on any product to build your shortlist.", "#/shop", "Browse gear")}
+      ${products.length ? `<div class="product-grid">${products.map((product) => productCard(product)).join("")}</div>` : emptyInline("No saved gear yet", "Use the heart control on any product to build your shortlist.", "#/shop", "Browse gear")}
     </section>
   `;
 }
