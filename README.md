@@ -1,15 +1,17 @@
 # Glitch Gear reference-matched storefront
 
-A complete, responsive storefront for [Glitch Gaming Apparel](https://www.glitchgear.com/), rebuilt to match the supplied 1456×1090 “WEAR THE GAME.” reference composition.
+A complete, responsive storefront for [Glitch Gaming Apparel](https://www.glitchgear.com/), rebuilt as a crisp HTML/CSS implementation of the supplied 1456×1090 “WEAR THE GAME.” reference composition.
 
 The site is intentionally static so it can run on GitHub Pages. Product names, descriptions, prices, variants, availability, collection artwork, product imagery, the sizing chart, About copy, contact information, and privacy content are sourced from Glitch Gear's public Shopify storefront. A generated catalog snapshot supports local development, while the deployed site can fall back to the public live catalog.
 
 ## Included
 
-- Exact reference-art desktop composition: 20px announcement bar, 61px header, 302px hero, 158px collections, 212px Featured Drops, 98px banner, and 184px footer. The four-item benefits strip beneath the banner is intentionally removed.
+- Reference-matched desktop composition: 20px announcement bar, 61px header, 302px hero, 158px collections, 212px Featured Drops, 98px banner, and 184px footer. The four-item benefits strip beneath the banner is intentionally removed.
+- Crisp code-built layout at every viewport; the supplied screenshot is not stretched or used as a webpage surface
+- One black, charcoal, silver, and acid-lime technical theme across every route, drawer, dialog, filter, form, and empty state
 - Full searchable product catalog with availability, types, collections, and sorting
 - Collection and product detail routes
-- Official product imagery and sizing chart
+- Official product imagery and sizing chart, with product photos normalized onto consistent charcoal presentation bays
 - Persistent local cart and wishlist
 - Variant and sold-out handling
 - Responsive navigation and mobile storefront layouts
