@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-08T14:20:00.000Z",
+  "title": "Design System: Glitch Gear Storefront",
+  "extensions": {
+    "colorMeta": {
+      "power-lime": {
+        "role": "primary",
+        "displayName": "Power Lime",
+        "canonical": "oklch(82% 0.22 126)",
+        "tonalRamp": ["oklch(15% 0.05 126)", "oklch(27% 0.08 126)", "oklch(39% 0.11 126)", "oklch(51% 0.14 126)", "oklch(63% 0.17 126)", "oklch(75% 0.2 126)", "oklch(87% 0.18 126)", "oklch(95% 0.08 126)"]
+      },
+      "void-black": {
+        "role": "neutral",
+        "displayName": "Void Black",
+        "canonical": "oklch(7% 0.012 135)",
+        "tonalRamp": ["oklch(7% 0.012 135)", "oklch(18% 0.012 135)", "oklch(30% 0.012 135)", "oklch(42% 0.012 135)", "oklch(54% 0.012 135)", "oklch(66% 0.01 135)", "oklch(80% 0.008 135)", "oklch(95% 0.004 135)"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Equipment Display", "purpose": "Hero and world headings only." },
+      "body": { "displayName": "Technical Body", "purpose": "Shopping, descriptions, policies, and support." },
+      "label": { "displayName": "Signal Label", "purpose": "Navigation, filters, status, and short metadata." }
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "tactical-ease", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Short interface feedback and controlled drawer motion." }
+    ],
+    "breakpoints": [
+      { "name": "mobile", "value": "580px" },
+      { "name": "compact", "value": "860px" },
+      { "name": "wide", "value": "1120px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Primary shopping or navigation action.",
+      "html": "<button class=\"ds-btn-primary\">SHOP ALL GEAR →</button>",
+      "css": ".ds-btn-primary { background: oklch(82% 0.22 126); color: oklch(7% 0.012 135); padding: 11px 20px; border: 0; border-radius: 2px; clip-path: polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px); font: 700 12px 'Chakra Petch',sans-serif; letter-spacing: .08em; } .ds-btn-primary:hover { background: oklch(90% 0.25 126); transform: translateY(-2px); } .ds-btn-primary:focus-visible { outline: 3px solid oklch(90% 0.25 126); outline-offset: 3px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Secondary path beside one primary action.",
+      "html": "<button class=\"ds-btn-secondary\">EXPLORE COLLECTIONS</button>",
+      "css": ".ds-btn-secondary { background: oklch(9% 0.01 130); color: oklch(94% 0.008 120); padding: 11px 20px; border: 1px solid oklch(72% 0.02 120); border-radius: 2px; font: 700 12px 'Chakra Petch',sans-serif; letter-spacing: .08em; } .ds-btn-secondary:hover { border-color: oklch(82% 0.22 126); color: oklch(82% 0.22 126); } .ds-btn-secondary:focus-visible { outline: 3px solid oklch(90% 0.25 126); outline-offset: 3px; }"
+    },
+    {
+      "name": "Search Field",
+      "kind": "input",
+      "description": "Compact squared catalog search field.",
+      "html": "<input class=\"ds-search\" placeholder=\"Search gear…\" />",
+      "css": ".ds-search { min-height: 44px; padding: 10px 12px; border: 1px solid oklch(45% 0.025 120); border-radius: 0; background: oklch(14% 0.014 135); color: oklch(94% 0.008 120); font: 400 14px 'Chakra Petch',sans-serif; } .ds-search:focus { outline: 3px solid oklch(90% 0.25 126); outline-offset: 3px; border-color: oklch(82% 0.22 126); }"
+    },
+    {
+      "name": "Product Bay",
+      "kind": "card",
+      "refersTo": "product-card",
+      "description": "Recessed catalog surface with image, availability, title, and price.",
+      "html": "<article class=\"ds-product\"><div class=\"ds-product-media\">AVAILABLE</div><h3>Aperture Messenger Bag</h3><span>$94.99</span></article>",
+      "css": ".ds-product { width: 250px; border: 1px solid oklch(30% 0.025 125); background: oklch(14% 0.014 135); color: oklch(94% 0.008 120); padding: 12px; font: 400 13px 'Chakra Petch',sans-serif; } .ds-product-media { height: 140px; padding: 9px; background: oklch(18% 0.012 130); color: oklch(82% 0.22 126); font-size: 9px; letter-spacing: .08em; } .ds-product:hover { border-color: oklch(73% 0.18 124); transform: translateY(-3px); } .ds-product:focus-within { outline: 3px solid oklch(90% 0.25 126); outline-offset: 3px; }"
+    },
+    {
+      "name": "Signal Tag",
+      "kind": "chip",
+      "description": "Short availability or status label.",
+      "html": "<span class=\"ds-signal\">AVAILABLE</span>",
+      "css": ".ds-signal { display: inline-block; padding: 4px 7px; background: oklch(8% 0.012 130); color: oklch(82% 0.22 126); font: 800 9px 'Chakra Petch',sans-serif; letter-spacing: .08em; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Player Loadout",
+    "overview": "A premium game inventory screen made physical. Near-black technical surfaces, acid-lime interaction signals, industrial display lettering, and real product imagery create an immersive but disciplined shopping system.",
+    "keyCharacteristics": ["Near-black layered surfaces", "Restrained acid-lime signals", "Industrial condensed display type", "Square equipment-bay geometry", "Official product and franchise imagery"],
+    "rules": [
+      { "name": "The Signal Rule", "body": "Power Lime communicates interaction or status. It is never sprayed across large surfaces as decoration.", "section": "colors" },
+      { "name": "The Case-Title Rule", "body": "Display lettering is reserved for world names and decisive campaign statements.", "section": "typography" },
+      { "name": "The Equipment-Bay Rule", "body": "Products are mounted inside the interface. Soft floating cards are prohibited.", "section": "elevation" }
+    ],
+    "dos": ["Do use current Glitch Gear product photography and franchise imagery.", "Do preserve obvious product, sizing, cart, search, and checkout affordances.", "Do support keyboard navigation, visible focus, reduced motion, and WCAG 2.2 AA contrast."],
+    "donts": ["Don't use generic Shopify templates, bright lifestyle-fashion minimalism, soft SaaS styling, or cartoonish gamer motifs.", "Don't invent products, prices, sizing claims, policies, testimonials, or licensing relationships.", "Don't imply that live payment processing is connected until the Shopify integration is configured."]
+  }
+}
