@@ -240,13 +240,6 @@ function renderHome() {
     <section class="campaign-banner">
       <h2>ICONIC WORLDS.<br />EVERYDAY GEAR.</h2>
     </section>
-
-    <section class="benefit-strip" aria-label="Storefront benefits">
-      ${benefit("truck", "Free U.S. shipping", "On orders $75+")}
-      ${benefit("return", "Easy returns", "30-day hassle free")}
-      ${benefit("controller", "Gamer approved", "Designed by gamers")}
-      ${benefit("shield", "Secure checkout", "Shop with confidence")}
-    </section>
   `;
 }
 
@@ -812,27 +805,8 @@ function formatPrice(value) {
   }).format(value);
 }
 
-function benefit(icon, title, text) {
-  return `
-    <div class="benefit">
-      <span class="benefit-icon" aria-hidden="true">${trustIcon(icon)}</span>
-      <div><strong>${title}</strong><span>${text}</span></div>
-    </div>
-  `;
-}
-
 function cartGlyph() {
   return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h2l2.4 11.4a2 2 0 0 0 2 1.6h8.9a2 2 0 0 0 2-1.6L21 7H5"/><circle cx="9" cy="20" r="1.2"/><circle cx="18" cy="20" r="1.2"/></svg>`;
-}
-
-function trustIcon(name) {
-  const icons = {
-    truck: `<svg viewBox="0 0 32 32"><path d="M2 8h17v13H2zM19 12h6l5 5v4H19zM8 26a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm15 0a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/><path d="M4 4h11M1 12h7"/></svg>`,
-    return: `<svg viewBox="0 0 32 32"><path d="M8 10V3m0 0H1m7 0-5 5a13 13 0 1 1-1 15"/></svg>`,
-    controller: `<svg viewBox="0 0 32 32"><path d="M9 10h14a6 6 0 0 1 5.5 3.7l2.2 5.4a5 5 0 0 1-8.2 5.4L19 21h-6l-3.5 3.5a5 5 0 0 1-8.2-5.4l2.2-5.4A6 6 0 0 1 9 10Z"/><path d="M8 14v7M4.5 17.5h7M23 15v.1M26 19v.1"/></svg>`,
-    shield: `<svg viewBox="0 0 32 32"><path d="M16 2 28 7v8c0 8-5 13-12 15C9 28 4 23 4 15V7z"/><path d="m10 16 4 4 8-9"/></svg>`,
-  };
-  return icons[name] || "";
 }
 
 function supportItem(title, description, href, label) {
