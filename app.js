@@ -987,8 +987,8 @@ async function loadLiveStore() {
       logo:
         "https://www.glitchgear.com/cdn/shop/t/8/assets/logo-retina.png?v=8680649266583781291452150565",
       heroModels: [
-        "https://www.glitchgear.com/cdn/shop/t/8/assets/home-slider-slide-2.jpg?v=424452391313802281480387126",
-        "https://www.glitchgear.com/cdn/shop/t/8/assets/home-slider-slide-3.jpg?v=124619097523578151281452150560",
+        "assets/hero-woman.png",
+        "assets/hero-man.png",
         "https://www.glitchgear.com/cdn/shop/t/8/assets/home-slider-slide-4.jpg?v=105692060234987020401452150561",
       ],
     },
