@@ -16,7 +16,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Chakra+Petch:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Rajdhani:wght@400;500;600;700&family=Russo+One&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles.css" />
@@ -24,19 +24,22 @@
   <body>
     <a class="skip-link" href="#app">Skip to main content</a>
 
-    <div class="signal-bar" aria-label="Storefront status">
-      <span>◈ Live catalog source: glitchgear.com</span>
-      <span aria-hidden="true">|</span>
-      <span>Shopify checkout ready to connect</span>
+    <div class="announcement-bar" aria-label="Store policies">
+      <span class="announcement-item">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h11v9H3zM14 9h4l3 3v3h-7zM7 18a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm10 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/></svg>
+        FREE U.S. SHIPPING ON ORDERS $75+
+      </span>
+      <span class="announcement-divider" aria-hidden="true"></span>
+      <span class="announcement-item">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8V3m0 0h5M4 3l4 4a8 8 0 1 1-2 8"/></svg>
+        EASY 30-DAY RETURNS
+      </span>
     </div>
 
     <header class="site-header">
       <a class="brand" href="#/" aria-label="Glitch Gaming Apparel home">
-        <span class="power-mark" aria-hidden="true"></span>
-        <span class="brand-type">
-          <strong>GLITCH</strong>
-          <small>GAMING APPAREL</small>
-        </span>
+        <span class="logo-mark" aria-hidden="true"></span>
+        <span class="logo-words" aria-hidden="true"></span>
       </a>
 
       <button
@@ -51,21 +54,22 @@
       </button>
 
       <nav id="primary-navigation" class="primary-nav" aria-label="Primary navigation">
-        <a href="#/shop">Shop</a>
-        <a href="#/collections">Collections</a>
+        <a href="#/shop">Shop <span aria-hidden="true">⌄</span></a>
+        <a href="#/collections">Collections <span aria-hidden="true">⌄</span></a>
         <a href="#/shop?sort=newest">New arrivals</a>
-        <a href="#/size-guide">Size guide</a>
+        <a class="mobile-search-link" href="#/shop">Search gear</a>
       </nav>
 
       <div class="header-tools">
         <form class="header-search" data-search-form role="search">
           <label class="sr-only" for="site-search">Search gear</label>
-          <input id="site-search" name="q" type="search" placeholder="Search gear…" autocomplete="off" />
-          <button type="submit" aria-label="Search">⌕</button>
+          <input id="site-search" name="q" type="search" placeholder="Search gear..." autocomplete="off" />
+          <button type="submit" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></button>
         </form>
-        <a class="icon-button desktop-tool" href="#/wishlist" aria-label="View wishlist">♡</a>
+        <a class="icon-button desktop-tool" href="https://www.glitchgear.com/account" aria-label="Customer account"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7.5" r="4"/><path d="M4.5 21v-2.5a7.5 7.5 0 0 1 15 0V21z"/></svg></a>
+        <a class="icon-button desktop-tool" href="#/wishlist" aria-label="View wishlist"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.8a5.5 5.5 0 0 0-7.8 0L12 5.9l-1-1.1a5.5 5.5 0 1 0-7.8 7.8L12 21l8.8-8.4a5.5 5.5 0 0 0 0-7.8Z"/></svg></a>
         <button class="icon-button cart-button" type="button" data-action="open-cart" aria-label="Open cart">
-          <span aria-hidden="true">▱</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h2l2.4 11.4a2 2 0 0 0 2 1.6h8.9a2 2 0 0 0 2-1.6L21 7H5"/><circle cx="9" cy="20" r="1.2"/><circle cx="18" cy="20" r="1.2"/></svg>
           <span class="cart-count" data-cart-count>0</span>
         </button>
       </div>
@@ -73,56 +77,61 @@
 
     <main id="app" tabindex="-1"></main>
 
-    <footer class="site-footer">
+    <footer class="site-footer" aria-label="Site footer">
+      <div class="footer-inner">
       <div class="footer-brand">
         <a class="brand" href="#/" aria-label="Glitch Gaming Apparel home">
-          <span class="power-mark" aria-hidden="true"></span>
-          <span class="brand-type">
-            <strong>GLITCH</strong>
-            <small>GAMING APPAREL</small>
-          </span>
+          <span class="logo-mark" aria-hidden="true"></span>
+          <span class="logo-words" aria-hidden="true"></span>
         </a>
-        <p>Original and licensed gear, developed by gamers for gamers.</p>
-        <a class="source-link" href="https://www.glitchgear.com/" target="_blank" rel="noreferrer">Visit the current store ↗</a>
+        <div class="social-links" aria-label="Glitch Gaming Apparel social links">
+          <a href="https://www.facebook.com/glitchgear" target="_blank" rel="noopener noreferrer" aria-label="Glitch Gear on Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 8h4V3h-4c-4 0-6 2.5-6 6v3H4v5h4v7h5v-7h4l1-5h-5V9c0-.7.3-1 1-1Z"/></svg></a>
+          <a href="https://www.instagram.com/glitchgear" target="_blank" rel="noopener noreferrer" aria-label="Glitch Gear on Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.5" cy="6.5" r="1" class="fill-icon"/></svg></a>
+          <a href="https://x.com/glitchgear" target="_blank" rel="noopener noreferrer" aria-label="Glitch Gear on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3h5.4l3.8 5.3L18 3h2l-5.9 6.8L21 21h-5.4l-4.4-6.1L6 21H4l6.3-7.6z"/></svg></a>
+          <a href="https://www.etsy.com/shop/GlitchGamingApparel" target="_blank" rel="noopener noreferrer" aria-label="Glitch Gear on Etsy"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h14v5h-2V5H9v6h6V9h2v6h-2v-2H9v6h8v-3h2v5H5v-2h2V5H5z"/></svg></a>
+        </div>
       </div>
 
-      <div>
-        <h2>Shop</h2>
-        <a href="#/shop">All gear</a>
+      <details class="footer-menu" open>
+        <summary><h2>Shop</h2></summary>
+        <a href="#/shop?sort=newest">New Arrivals</a>
         <a href="#/shop?type=T-Shirt">T-shirts</a>
+        <a href="#/shop?q=hoodie">Hoodies</a>
         <a href="#/shop?type=Hat">Hats</a>
         <a href="#/shop?type=Back%20Pack">Backpacks</a>
-        <a href="#/shop?type=Plush">Collectibles</a>
-      </div>
+        <a href="#/shop?q=accessories">Accessories</a>
+        <a href="https://www.glitchgear.com/products/gift-card">Gift Cards</a>
+      </details>
 
-      <div>
-        <h2>Collections</h2>
+      <details class="footer-menu" open>
+        <summary><h2>Collections</h2></summary>
         <a href="#/collection/portal">Portal</a>
         <a href="#/collection/fallout-4">Fallout 4</a>
+        <a href="#/shop?q=bioshock">BioShock</a>
         <a href="#/collection/half-life-2">Half-Life 2</a>
         <a href="#/collection/gears-of-war">Gears of War</a>
-        <a href="#/collections">View all</a>
-      </div>
+        <a href="#/collection/left-4-dead-2">Left 4 Dead</a>
+      </details>
 
-      <div>
-        <h2>Support</h2>
-        <a href="#/support">Customer support</a>
-        <a href="#/size-guide">Sizing chart</a>
-        <a href="#/contact">Contact</a>
-        <a href="#/privacy">Privacy policy</a>
-      </div>
+      <details class="footer-menu" open>
+        <summary><h2>Support</h2></summary>
+        <a href="#/contact">Contact Us</a>
+        <a href="#/support">FAQ</a>
+        <a href="#/support">Shipping Info</a>
+        <a href="#/support">Returns &amp; Exchanges</a>
+        <a href="#/size-guide">Size Guide</a>
+      </details>
 
-      <div>
-        <h2>Company</h2>
-        <a href="#/about">About Glitch</a>
-        <a href="#/wishlist">Saved gear</a>
-        <a href="mailto:orders@glitchgear.com">orders@glitchgear.com</a>
+      <details class="footer-menu" open>
+        <summary><h2>Company</h2></summary>
+        <a href="#/about">About Us</a>
+        <a href="#/about">Our Story</a>
+        <a href="#/contact">Affiliate Program</a>
+        <a href="https://www.glitchgear.com/" target="_blank" rel="noopener noreferrer">Reviews</a>
+        <a href="#/contact">Careers</a>
+      </details>
       </div>
-
-      <div class="footer-meta">
-        <span>Concept storefront for presentation purposes.</span>
-        <span>Product data and imagery sourced from glitchgear.com.</span>
-      </div>
+      <div class="footer-meta">© <span data-current-year></span> GLITCH GAMING APPAREL. ALL RIGHTS RESERVED.</div>
     </footer>
 
     <dialog id="cart-dialog" class="drawer-dialog" aria-labelledby="cart-title">
