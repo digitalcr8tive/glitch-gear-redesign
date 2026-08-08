@@ -2,7 +2,7 @@
 
 A complete, responsive storefront concept for [Glitch Gaming Apparel](https://www.glitchgear.com/), built from the supplied dark game-loadout UI reference.
 
-The site is intentionally static so it can run on GitHub Pages. Product names, descriptions, prices, variants, availability, collection artwork, product imagery, the sizing chart, About copy, contact information, and privacy content are sourced from Glitch Gear's public Shopify storefront.
+The site is intentionally static so it can run on GitHub Pages. Product names, descriptions, prices, variants, availability, collection artwork, product imagery, the sizing chart, About copy, contact information, and privacy content are sourced from Glitch Gear's public Shopify storefront. A generated catalog snapshot supports local development, while the deployed site can fall back to the public live catalog.
 
 ## Included
 
@@ -28,7 +28,7 @@ Then open `http://127.0.0.1:4173/`.
 
 ## Refresh the catalog
 
-The committed catalog snapshot can be regenerated from Glitch Gear's public Shopify JSON endpoints:
+The local catalog snapshot can be generated from Glitch Gear's public Shopify JSON endpoints:
 
 ```bash
 node scripts/sync-catalog.mjs
