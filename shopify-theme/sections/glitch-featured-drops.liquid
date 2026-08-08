@@ -1,0 +1,33 @@
+<section class="gh-drops" aria-labelledby="GlitchDropsTitle-{{ section.id }}"{% if section.settings.countdown_end != blank %} data-countdown-end="{{ section.settings.countdown_end | escape }}"{% endif %}>
+  <div class="gh-drops-panel">
+    <header>
+      <h2 id="GlitchDropsTitle-{{ section.id }}">{{ section.settings.heading }}{% if section.settings.show_new_badge %}<span>{{ section.settings.badge_text }}</span>{% endif %}</h2>
+      {%- if section.settings.countdown_end != blank -%}<time data-gh-countdown hidden></time>{%- endif -%}
+    </header>
+    <div class="gh-product-rail">
+      {%- for product in section.settings.collection.products limit: 5 -%}
+        {% render 'glitch-product-card', product: product %}
+      {%- else -%}
+        {%- for index in (1..5) -%}<div class="gh-product-card gh-placeholder">Select a collection</div>{%- endfor -%}
+      {%- endfor -%}
+    </div>
+    {%- if section.settings.bottom_label != blank -%}<a class="gh-drops-link" href="{{ section.settings.collection.url | default: routes.all_products_collection_url }}">{{ section.settings.bottom_label }} <span aria-hidden="true">→</span></a>{%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Glitch featured drops",
+  "tag": "section",
+  "class": "gh-drops-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "FEATURED DROPS" },
+    { "type": "checkbox", "id": "show_new_badge", "label": "Show NEW badge", "default": true },
+    { "type": "text", "id": "badge_text", "label": "Badge text", "default": "NEW" },
+    { "type": "text", "id": "countdown_end", "label": "Real drop end date", "info": "ISO 8601 format, for example 2026-12-31T23:59:00-05:00. Leave blank to hide the countdown." },
+    { "type": "collection", "id": "collection", "label": "Product collection" },
+    { "type": "text", "id": "bottom_label", "label": "Bottom link label", "default": "VIEW ALL NEW ARRIVALS" }
+  ],
+  "presets": [{ "name": "Glitch featured drops" }]
+}
+{% endschema %}
