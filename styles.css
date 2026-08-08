@@ -2905,3 +2905,84 @@ body {
   .hero-copy { padding-top: 26px; }
   .home-collections .section-header { align-items: center; flex-direction: row; }
 }
+
+/* Desktop homepage reference lock.
+   The supplied 1456 x 1090 artwork is the authoritative visual source. The
+   existing semantic controls remain in place as interactive hit targets, and
+   the responsive coded layout takes over below 1200px. */
+@media (min-width: 1200px) {
+  body:has(.hero) {
+    background: #020304;
+  }
+
+  body:has(.hero)::before,
+  body:has(.hero) .hero::before,
+  body:has(.hero) .hero::after,
+  body:has(.hero) .campaign-banner::after {
+    display: none;
+  }
+
+  body:has(.hero) .announcement-bar,
+  body:has(.hero) .site-header,
+  body:has(.hero) .hero,
+  body:has(.hero) .home-collections,
+  body:has(.hero) .home-drops,
+  body:has(.hero) .campaign-banner,
+  body:has(.hero) .site-footer {
+    background-color: #020304;
+    background-image: url("./assets/reference-homepage-1456.png");
+    background-repeat: no-repeat;
+    background-size: 1456px 1090px;
+  }
+
+  body:has(.hero) .announcement-bar {
+    background-position: center 0;
+  }
+
+  body:has(.hero) .site-header {
+    background-position: center -20px;
+    backdrop-filter: none;
+  }
+
+  body:has(.hero) .hero {
+    background-position: center -81px;
+  }
+
+  body:has(.hero) .home-collections {
+    background-position: center -383px;
+  }
+
+  body:has(.hero) .home-drops {
+    background-position: center -541px;
+  }
+
+  body:has(.hero) .campaign-banner {
+    background-position: center -753px;
+    background-blend-mode: normal;
+  }
+
+  body:has(.hero) .site-footer {
+    min-height: 184px;
+    background-position: center -906px;
+  }
+
+  body:has(.hero) .announcement-bar > *,
+  body:has(.hero) .site-header > *,
+  body:has(.hero) .hero > *,
+  body:has(.hero) .home-collections > *,
+  body:has(.hero) .home-drops > *,
+  body:has(.hero) .campaign-banner > *,
+  body:has(.hero) .site-footer > * {
+    opacity: 0;
+  }
+
+  body:has(.hero) .site-header > *,
+  body:has(.hero) .hero a,
+  body:has(.hero) .home-collections a,
+  body:has(.hero) .home-collections button,
+  body:has(.hero) .home-drops a,
+  body:has(.hero) .home-drops button,
+  body:has(.hero) .site-footer a {
+    pointer-events: auto;
+  }
+}
