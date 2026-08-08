@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Glitch Gaming Apparel concept storefront featuring real catalog products and a Shopify-ready shopping flow."
+    />
+    <meta name="theme-color" content="#080a08" />
+    <title>Glitch Gaming Apparel | Wear the Game</title>
+    <link
+      rel="icon"
+      href="https://www.glitchgear.com/cdn/shop/t/8/assets/favicon.png?v=177561801859543913841452150559"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Chakra+Petch:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#app">Skip to main content</a>
+
+    <div class="signal-bar" aria-label="Storefront status">
+      <span>◈ Live catalog source: glitchgear.com</span>
+      <span aria-hidden="true">|</span>
+      <span>Shopify checkout ready to connect</span>
+    </div>
+
+    <header class="site-header">
+      <a class="brand" href="#/" aria-label="Glitch Gaming Apparel home">
+        <span class="power-mark" aria-hidden="true"></span>
+        <span class="brand-type">
+          <strong>GLITCH</strong>
+          <small>GAMING APPAREL</small>
+        </span>
+      </a>
+
+      <button
+        class="icon-button mobile-menu-button"
+        type="button"
+        data-action="toggle-menu"
+        aria-expanded="false"
+        aria-controls="primary-navigation"
+        aria-label="Open navigation"
+      >
+        <span aria-hidden="true">☰</span>
+      </button>
+
+      <nav id="primary-navigation" class="primary-nav" aria-label="Primary navigation">
+        <a href="#/shop">Shop</a>
+        <a href="#/collections">Collections</a>
+        <a href="#/shop?sort=newest">New arrivals</a>
+        <a href="#/size-guide">Size guide</a>
+      </nav>
+
+      <div class="header-tools">
+        <form class="header-search" data-search-form role="search">
+          <label class="sr-only" for="site-search">Search gear</label>
+          <input id="site-search" name="q" type="search" placeholder="Search gear…" autocomplete="off" />
+          <button type="submit" aria-label="Search">⌕</button>
+        </form>
+        <a class="icon-button desktop-tool" href="#/wishlist" aria-label="View wishlist">♡</a>
+        <button class="icon-button cart-button" type="button" data-action="open-cart" aria-label="Open cart">
+          <span aria-hidden="true">▱</span>
+          <span class="cart-count" data-cart-count>0</span>
+        </button>
+      </div>
+    </header>
+
+    <main id="app" tabindex="-1"></main>
+
+    <footer class="site-footer">
+      <div class="footer-brand">
+        <a class="brand" href="#/" aria-label="Glitch Gaming Apparel home">
+          <span class="power-mark" aria-hidden="true"></span>
+          <span class="brand-type">
+            <strong>GLITCH</strong>
+            <small>GAMING APPAREL</small>
+          </span>
+        </a>
+        <p>Original and licensed gear, developed by gamers for gamers.</p>
+        <a class="source-link" href="https://www.glitchgear.com/" target="_blank" rel="noreferrer">Visit the current store ↗</a>
+      </div>
+
+      <div>
+        <h2>Shop</h2>
+        <a href="#/shop">All gear</a>
+        <a href="#/shop?type=T-Shirt">T-shirts</a>
+        <a href="#/shop?type=Hat">Hats</a>
+        <a href="#/shop?type=Back%20Pack">Backpacks</a>
+        <a href="#/shop?type=Plush">Collectibles</a>
+      </div>
+
+      <div>
+        <h2>Collections</h2>
+        <a href="#/collection/portal">Portal</a>
+        <a href="#/collection/fallout-4">Fallout 4</a>
+        <a href="#/collection/half-life-2">Half-Life 2</a>
+        <a href="#/collection/gears-of-war">Gears of War</a>
+        <a href="#/collections">View all</a>
+      </div>
+
+      <div>
+        <h2>Support</h2>
+        <a href="#/support">Customer support</a>
+        <a href="#/size-guide">Sizing chart</a>
+        <a href="#/contact">Contact</a>
+        <a href="#/privacy">Privacy policy</a>
+      </div>
+
+      <div>
+        <h2>Company</h2>
+        <a href="#/about">About Glitch</a>
+        <a href="#/wishlist">Saved gear</a>
+        <a href="mailto:orders@glitchgear.com">orders@glitchgear.com</a>
+      </div>
+
+      <div class="footer-meta">
+        <span>Concept storefront for presentation purposes.</span>
+        <span>Product data and imagery sourced from glitchgear.com.</span>
+      </div>
+    </footer>
+
+    <dialog id="cart-dialog" class="drawer-dialog" aria-labelledby="cart-title">
+      <div class="drawer-header">
+        <div>
+          <span class="status-code">LOADOUT / CART</span>
+          <h2 id="cart-title">Your gear</h2>
+        </div>
+        <button class="icon-button" type="button" data-action="close-cart" aria-label="Close cart">×</button>
+      </div>
+      <div class="drawer-body" data-cart-items></div>
+      <div class="drawer-footer" data-cart-footer></div>
+    </dialog>
+
+    <dialog id="checkout-dialog" class="notice-dialog" aria-labelledby="checkout-title">
+      <button class="dialog-close" type="button" data-action="close-checkout" aria-label="Close">×</button>
+      <span class="status-code">INTEGRATION STATUS</span>
+      <h2 id="checkout-title">Shopify checkout connects next</h2>
+      <p>
+        This presentation uses a fully working local cart. Live payment processing will connect to the business's Shopify storefront after approval and credentials are provided.
+      </p>
+      <button class="primary-button" type="button" data-action="close-checkout">Return to cart</button>
+    </dialog>
+
+    <div class="toast" role="status" aria-live="polite" aria-atomic="true" data-toast></div>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
