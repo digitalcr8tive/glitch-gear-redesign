@@ -502,7 +502,7 @@ function pageHero(code, title, description) {
 
 function collectionCard(collection) {
   return `
-    <a class="collection-card" href="#/collection/${encodeURIComponent(collection.handle)}">
+    <a class="collection-card collection-${escapeAttr(collection.handle)}" href="#/collection/${encodeURIComponent(collection.handle)}">
       ${collection.image ? `<img src="${escapeAttr(collection.image)}" alt="" loading="lazy" />` : ""}
       <div class="collection-card-content">
         <h3>${escapeHTML(collection.title)}</h3>
@@ -515,7 +515,7 @@ function collectionCard(collection) {
 function homeCollectionCard(collection) {
   const href = collection.href || `#/collection/${encodeURIComponent(collection.handle)}`;
   return `
-    <a class="collection-card home-collection-card ${collection.synthetic ? "synthetic" : ""}" href="${escapeAttr(href)}" aria-label="View ${escapeAttr(collection.title)} collection">
+    <a class="collection-card home-collection-card collection-${escapeAttr(collection.handle)} ${collection.synthetic ? "synthetic" : ""}" href="${escapeAttr(href)}" aria-label="View ${escapeAttr(collection.title)} collection">
       ${collection.image ? `<img src="${escapeAttr(collection.image)}" alt="" loading="lazy" />` : ""}
       <strong>${escapeHTML(collection.title)}</strong>
       <span class="collection-action">View collection <b aria-hidden="true">→</b></span>
