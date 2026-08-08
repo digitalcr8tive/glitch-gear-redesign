@@ -1,0 +1,17 @@
+{%- liquid
+  assign card_collection = block.settings.collection
+  assign card_image = block.settings.image_override | default: card_collection.featured_image
+  assign card_title = block.settings.custom_title | default: card_collection.title
+  assign card_url = block.settings.link_override | default: card_collection.url
+-%}
+<a class="gh-collection-card" href="{{ card_url | default: routes.collections_url }}" {{ block.shopify_attributes }}>
+  {%- if card_image != blank -%}
+    {{ card_image | image_url: width: 520 | image_tag: widths: '220,320,420,520', sizes: '(min-width: 1200px) 210px, 232px', loading: 'lazy', alt: '' }}
+  {%- endif -%}
+  {%- if block.settings.logo != blank -%}
+    {{ block.settings.logo | image_url: width: 360 | image_tag: widths: '180,240,360', class: 'gh-collection-logo', loading: 'lazy', alt: card_title }}
+  {%- else -%}
+    <strong>{{ card_title }}</strong>
+  {%- endif -%}
+  <span class="gh-collection-action">{{ section.settings.action_label | default: 'View collection' }} <b aria-hidden="true">→</b></span>
+</a>
