@@ -6,7 +6,7 @@ The site is intentionally static so it can run on GitHub Pages. Product names, d
 
 ## Included
 
-- Reference-locked desktop geometry: 20px announcement bar, 61px header, 302px hero, 158px collections, 212px Featured Drops, 98px banner, 56px trust strip, and 184px footer
+- Exact reference-art desktop composition: 20px announcement bar, 61px header, 302px hero, 158px collections, 212px Featured Drops, 98px banner, and 184px footer. The four-item benefits strip beneath the banner is intentionally removed.
 - Full searchable product catalog with availability, types, collections, and sorting
 - Collection and product detail routes
 - Official product imagery and sizing chart
@@ -43,7 +43,7 @@ The current cart is local and does not process payment. To activate live checkou
 
 ## Shopify theme package
 
-The `shopify-theme/` directory contains eight Theme Editor sections, reusable product and collection cards, the icon system, responsive homepage CSS, AJAX cart behavior, real-date countdown handling, and an Online Store 2.0 `templates/index.json` file. It is designed to be merged into a duplicate of the current Shopify theme so existing analytics, app hooks, localization, account features, and the global cart drawer remain intact.
+The `shopify-theme/` directory contains seven active Theme Editor sections, reusable product and collection cards, the icon system, responsive homepage CSS, AJAX cart behavior, real-date countdown handling, and an Online Store 2.0 `templates/index.json` file. It is designed to be merged into a duplicate of the current Shopify theme so existing analytics, app hooks, localization, account features, and the global cart drawer remain intact.
 
 ## Content note
 
