@@ -10,7 +10,7 @@
     <span class="gh-availability-badge{% unless product.available %} is-sold-out{% endunless %}">{% if product.available %}Available{% else %}Sold out{% endif %}</span>
     {%- if product.featured_image != blank -%}
       {%- capture preserved_url -%}{% render 'glitch-product-image', image: product.featured_image, width: 620 %}{%- endcapture -%}
-      <img src="{{ preserved_url | strip }}" alt="{{ product.featured_image.alt | default: product.title | escape }}" width="620" height="620" loading="lazy">
+      <img src="{{ preserved_url | strip }}" alt="{{ product.featured_image.alt | default: product.title | escape }}" width="620" height="620" loading="lazy" decoding="async">
     {%- endif -%}
   </a>
   <div class="gh-product-body">

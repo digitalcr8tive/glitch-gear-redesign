@@ -17,6 +17,8 @@
 
   document.addEventListener('click', (event) => {
     const menuButton = event.target.closest('[data-gh-menu-button]');
+    const selectedDropdownLink = event.target.closest('.gh-nav-dropdown a');
+    if (selectedDropdownLink) selectedDropdownLink.closest('.gh-nav-menu')?.classList.add('is-dismissed');
     document.querySelectorAll('.gh-nav-menu.is-open').forEach((menu) => {
       if (!menuButton || menu !== menuButton.closest('.gh-nav-menu')) {
         menu.classList.remove('is-open');
@@ -25,9 +27,14 @@
     });
     if (menuButton) {
       const menu = menuButton.closest('.gh-nav-menu');
+      menu.classList.remove('is-dismissed');
       const open = menu.classList.toggle('is-open');
       menuButton.setAttribute('aria-expanded', String(open));
     }
+  });
+
+  document.querySelectorAll('.gh-nav-menu').forEach((menu) => {
+    menu.addEventListener('pointerleave', () => menu.classList.remove('is-dismissed'));
   });
 
   document.addEventListener('change', (event) => {

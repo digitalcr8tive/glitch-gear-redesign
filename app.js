@@ -18,7 +18,8 @@ syncFooterMenus();
 footerMobileQuery.addEventListener("change", syncFooterMenus);
 
 let store;
-let renderLimit = 36;
+const getRenderBatchSize = () => (matchMedia("(max-width: 767px)").matches ? 16 : 36);
+let renderLimit = getRenderBatchSize();
 let toastTimer;
 
 const state = {
@@ -55,7 +56,7 @@ try {
 
 function bindEvents() {
   window.addEventListener("hashchange", () => {
-    renderLimit = 36;
+    renderLimit = getRenderBatchSize();
     render();
     closeMenu();
     app.focus({ preventScroll: true });
@@ -63,6 +64,11 @@ function bindEvents() {
   });
 
   document.addEventListener("click", (event) => {
+    const selectedDropdownLink = event.target.closest(".nav-dropdown a");
+    if (selectedDropdownLink) {
+      selectedDropdownLink.closest("[data-nav-menu]")?.classList.add("is-dismissed");
+      closeMenu();
+    }
     if (!event.target.closest("[data-nav-menu]")) closeAllNavDropdowns();
     const actionElement = event.target.closest("[data-action]");
     if (!actionElement) return;
@@ -70,6 +76,7 @@ function bindEvents() {
 
     if (action === "toggle-menu") toggleMenu();
     if (action === "toggle-nav-dropdown") toggleNavDropdown(actionElement);
+    if (action === "toggle-filters") toggleFilters(actionElement);
     if (action === "open-cart") openCart();
     if (action === "close-cart") cartDialog.close();
     if (action === "close-checkout") checkoutDialog.close();
@@ -84,7 +91,7 @@ function bindEvents() {
     if (action === "cart-decrease") changeQuantity(actionElement.dataset.variant, -1);
     if (action === "cart-remove") removeCartItem(actionElement.dataset.variant);
     if (action === "load-more") {
-      renderLimit += 36;
+      renderLimit += getRenderBatchSize();
       renderCurrentProductList();
     }
   });
@@ -134,6 +141,10 @@ function bindEvents() {
   checkoutDialog.addEventListener("click", (event) => {
     if (event.target === checkoutDialog) checkoutDialog.close();
   });
+
+  document.querySelectorAll("[data-nav-menu]").forEach((menu) => {
+    menu.addEventListener("pointerleave", () => menu.classList.remove("is-dismissed"));
+  });
 }
 
 function populateNavigation() {
@@ -151,6 +162,7 @@ function populateNavigation() {
 
 function toggleNavDropdown(button) {
   const menu = button.closest("[data-nav-menu]");
+  menu.classList.remove("is-dismissed");
   const willOpen = !menu.classList.contains("open");
   closeAllNavDropdowns();
   menu.classList.toggle("open", willOpen);
@@ -348,7 +360,7 @@ function renderProduct(handle) {
         <div class="product-gallery">
           ${images.slice(0, 5).map((image) => `
             <figure>
-              ${image.src ? `<img src="${escapeAttr(productImageSrc(image))}" alt="${escapeAttr(image.alt || product.title)}" loading="${image === images[0] ? "eager" : "lazy"}" />` : ""}
+              ${image.src ? `<img src="${escapeAttr(productImageSrc(image))}" alt="${escapeAttr(image.alt || product.title)}" loading="${image === images[0] ? "eager" : "lazy"}" decoding="async"${image === images[0] ? " fetchpriority=\"high\"" : ""} />` : ""}
             </figure>
           `).join("")}
         </div>
@@ -526,7 +538,7 @@ function pageHero(code, title, description) {
 function collectionCard(collection) {
   return `
     <a class="collection-card collection-${escapeAttr(collection.handle)}" href="#/collection/${encodeURIComponent(collection.handle)}">
-      ${collection.image ? `<img src="${escapeAttr(collection.image)}" alt="" loading="lazy" />` : ""}
+      ${collection.image ? `<img src="${escapeAttr(collection.image)}" alt="" loading="lazy" decoding="async" />` : ""}
       <div class="collection-card-content">
         <h3>${escapeHTML(collection.title)}</h3>
         <span>${collection.productCount} products · View collection →</span>
@@ -539,7 +551,7 @@ function homeCollectionCard(collection) {
   const href = collection.href || `#/collection/${encodeURIComponent(collection.handle)}`;
   return `
     <a class="collection-card home-collection-card collection-${escapeAttr(collection.handle)} ${collection.synthetic ? "synthetic" : ""}" href="${escapeAttr(href)}" aria-label="View ${escapeAttr(collection.title)} collection">
-      ${collection.image ? `<img src="${escapeAttr(collection.image)}" alt="" loading="lazy" />` : ""}
+      ${collection.image ? `<img src="${escapeAttr(collection.image)}" alt="" loading="lazy" decoding="async" />` : ""}
       <strong>${escapeHTML(collection.title)}</strong>
       <span class="collection-action">View collection <b aria-hidden="true">→</b></span>
     </a>
@@ -555,7 +567,7 @@ function productCard(product, featured = false) {
     <article class="product-card ${featured ? "featured-card" : ""} ${product.available ? "" : "is-sold-out"}">
       <a class="product-media" href="#/product/${encodeURIComponent(product.handle)}" aria-label="View ${escapeAttr(product.title)}${product.available ? "" : " (sold out)"}">
         ${featured && product.available ? "" : `<span class="availability-badge ${product.available ? "" : "sold-out"}">${product.available ? "Available" : "Sold out"}</span>`}
-        ${image ? `<img src="${escapeAttr(productImageSrc(image))}" alt="${escapeAttr(image.alt || product.title)}" loading="lazy" />` : ""}
+        ${image ? `<img src="${escapeAttr(productImageSrc(image))}" alt="${escapeAttr(image.alt || product.title)}" loading="lazy" decoding="async" />` : ""}
       </a>
       ${featured ? "" : `<button class="wishlist-toggle ${isWishlisted(product.handle) ? "active" : ""}" type="button" data-action="toggle-wishlist" data-handle="${escapeAttr(product.handle)}" aria-label="${isWishlisted(product.handle) ? "Remove" : "Add"} ${escapeAttr(product.title)} ${isWishlisted(product.handle) ? "from" : "to"} wishlist" aria-pressed="${isWishlisted(product.handle)}">${isWishlisted(product.handle) ? "♥" : "♡"}</button>`}
       <div class="product-card-body">
@@ -575,42 +587,54 @@ function filterPanel(params) {
   const types = [...new Set(store.products.map((product) => product.productType).filter(Boolean))].sort();
   return `
     <form class="filter-panel" data-filter-form>
-      <h2>Filter inventory</h2>
-      <div class="field">
-        <label for="filter-query">Search</label>
-        <input id="filter-query" name="q" type="search" value="${escapeAttr(params.get("q") || "")}" placeholder="Title, game, gear…" />
+      <button class="filter-toggle" type="button" data-action="toggle-filters" aria-expanded="false" aria-controls="filter-fields">
+        <span>Filter &amp; sort</span><span aria-hidden="true">+</span>
+      </button>
+      <div class="filter-fields" id="filter-fields">
+        <h2>Filter inventory</h2>
+        <div class="field">
+          <label for="filter-query">Search</label>
+          <input id="filter-query" name="q" type="search" value="${escapeAttr(params.get("q") || "")}" placeholder="Title, game, gear…" />
+        </div>
+        <div class="field">
+          <label for="filter-type">Gear type</label>
+          <select id="filter-type" name="type" data-filter>
+            <option value="">All gear types</option>
+            ${types.map((type) => `<option value="${escapeAttr(type)}" ${params.get("type") === type ? "selected" : ""}>${escapeHTML(type)}</option>`).join("")}
+          </select>
+        </div>
+        <div class="field">
+          <label for="filter-collection">Collection</label>
+          <select id="filter-collection" name="collection" data-filter>
+            <option value="">All collections</option>
+            ${store.collections.map((collection) => `<option value="${escapeAttr(collection.handle)}" ${params.get("collection") === collection.handle ? "selected" : ""}>${escapeHTML(collection.title)}</option>`).join("")}
+          </select>
+        </div>
+        <div class="field">
+          <label for="filter-sort">Sort</label>
+          <select id="filter-sort" name="sort" data-filter>
+            ${sortOption("featured", "Featured", params)}
+            ${sortOption("newest", "Newest", params)}
+            ${sortOption("price-low", "Price: low to high", params)}
+            ${sortOption("price-high", "Price: high to low", params)}
+            ${sortOption("title", "Title: A to Z", params)}
+          </select>
+        </div>
+        <label class="check-field">
+          <input type="checkbox" name="available" value="1" data-filter ${params.get("available") === "1" ? "checked" : ""} />
+          Available gear only
+        </label>
+        <button class="primary-button" type="submit">Apply search</button>
       </div>
-      <div class="field">
-        <label for="filter-type">Gear type</label>
-        <select id="filter-type" name="type" data-filter>
-          <option value="">All gear types</option>
-          ${types.map((type) => `<option value="${escapeAttr(type)}" ${params.get("type") === type ? "selected" : ""}>${escapeHTML(type)}</option>`).join("")}
-        </select>
-      </div>
-      <div class="field">
-        <label for="filter-collection">Collection</label>
-        <select id="filter-collection" name="collection" data-filter>
-          <option value="">All collections</option>
-          ${store.collections.map((collection) => `<option value="${escapeAttr(collection.handle)}" ${params.get("collection") === collection.handle ? "selected" : ""}>${escapeHTML(collection.title)}</option>`).join("")}
-        </select>
-      </div>
-      <div class="field">
-        <label for="filter-sort">Sort</label>
-        <select id="filter-sort" name="sort" data-filter>
-          ${sortOption("featured", "Featured", params)}
-          ${sortOption("newest", "Newest", params)}
-          ${sortOption("price-low", "Price: low to high", params)}
-          ${sortOption("price-high", "Price: high to low", params)}
-          ${sortOption("title", "Title: A to Z", params)}
-        </select>
-      </div>
-      <label class="check-field">
-        <input type="checkbox" name="available" value="1" data-filter ${params.get("available") === "1" ? "checked" : ""} />
-        Available gear only
-      </label>
-      <button class="primary-button" type="submit">Apply search</button>
     </form>
   `;
+}
+
+function toggleFilters(button) {
+  const panel = button.closest(".filter-panel");
+  const open = panel.classList.toggle("filters-open");
+  button.setAttribute("aria-expanded", String(open));
+  button.querySelector("span:last-child").textContent = open ? "−" : "+";
 }
 
 function sortOption(value, label, params) {

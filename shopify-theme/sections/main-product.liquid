@@ -3,7 +3,7 @@
   <div class="gh-product-gallery" aria-label="Product images">
     {%- for image in product.images -%}
       {%- capture preserved_url -%}{% render 'glitch-product-image', image: image, width: 1400 %}{%- endcapture -%}
-      <figure><img src="{{ preserved_url | strip }}" alt="{{ image.alt | default: product.title | escape }}" width="{{ image.width }}" height="{{ image.height }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"{% if forloop.first %} fetchpriority="high"{% endif %}></figure>
+      <figure><img src="{{ preserved_url | strip }}" alt="{{ image.alt | default: product.title | escape }}" width="{{ image.width }}" height="{{ image.height }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" decoding="async"{% if forloop.first %} fetchpriority="high"{% endif %}></figure>
     {%- endfor -%}
   </div>
   <div class="gh-product-panel">
