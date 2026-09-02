@@ -1,11 +1,9 @@
 <section class="gh-collections" aria-labelledby="GlitchCollectionsTitle-{{ section.id }}">
   <header><h2 id="GlitchCollectionsTitle-{{ section.id }}">{{ section.settings.heading }}</h2><a href="{{ section.settings.view_all_url | default: routes.collections_url }}">{{ section.settings.view_all_label }} →</a></header>
   <div class="gh-collection-wrap">
-    <button type="button" data-gh-scroll="-1" aria-label="Scroll collections left">‹</button>
     <div class="gh-collection-rail" data-gh-rail tabindex="0">
       {%- for block in section.blocks -%}{% render 'glitch-collection-card', block: block, section: section %}{%- endfor -%}
     </div>
-    <button type="button" data-gh-scroll="1" aria-label="Scroll collections right">›</button>
   </div>
 </section>
 

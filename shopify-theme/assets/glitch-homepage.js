@@ -16,14 +16,6 @@
   };
 
   document.addEventListener('click', (event) => {
-    const arrow = event.target.closest('[data-gh-scroll]');
-    if (arrow) {
-      arrow.parentElement.querySelector('[data-gh-rail]')?.scrollBy({
-        left: Number(arrow.dataset.ghScroll) * 260,
-        behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
-      });
-    }
-
     const menuButton = event.target.closest('[data-gh-menu-button]');
     document.querySelectorAll('.gh-nav-menu.is-open').forEach((menu) => {
       if (!menuButton || menu !== menuButton.closest('.gh-nav-menu')) {

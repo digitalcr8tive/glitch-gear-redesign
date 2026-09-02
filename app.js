@@ -63,6 +63,7 @@ function bindEvents() {
   });
 
   document.addEventListener("click", (event) => {
+    if (!event.target.closest("[data-nav-menu]")) closeAllNavDropdowns();
     const actionElement = event.target.closest("[data-action]");
     if (!actionElement) return;
     const { action } = actionElement.dataset;
@@ -79,12 +80,6 @@ function bindEvents() {
     if (action === "quick-add") quickAdd(actionElement.dataset.handle);
     if (action === "add-product") addSelectedProduct(actionElement.dataset.handle);
     if (action === "toggle-wishlist") toggleWishlist(actionElement.dataset.handle);
-    if (action === "scroll-collections") {
-      document.querySelector("[data-collection-rail]")?.scrollBy({
-        left: Number(actionElement.dataset.direction) * 260,
-        behavior: "smooth",
-      });
-    }
     if (action === "cart-increase") changeQuantity(actionElement.dataset.variant, 1);
     if (action === "cart-decrease") changeQuantity(actionElement.dataset.variant, -1);
     if (action === "cart-remove") removeCartItem(actionElement.dataset.variant);
@@ -130,7 +125,7 @@ function bindEvents() {
   });
 
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && nav.classList.contains("open")) closeMenu();
+    if (event.key === "Escape") closeMenu();
   });
 
   cartDialog.addEventListener("click", (event) => {
@@ -247,11 +242,9 @@ function renderHome() {
         <a class="section-link" href="#/collections">View all collections →</a>
       </div>
       <div class="collection-carousel">
-        <button class="rail-arrow rail-arrow-left" type="button" data-action="scroll-collections" data-direction="-1" aria-label="Scroll collections left">‹</button>
         <div class="collection-rail" data-collection-rail>
           ${orderedCollections.map(homeCollectionCard).join("")}
         </div>
-        <button class="rail-arrow rail-arrow-right" type="button" data-action="scroll-collections" data-direction="1" aria-label="Scroll collections right">›</button>
       </div>
     </section>
 
@@ -559,9 +552,9 @@ function productCard(product, featured = false) {
   const availableVariants = product.variants.filter((variant) => variant.available);
   const canQuickAdd = availableVariants.length === 1;
   return `
-    <article class="product-card ${featured ? "featured-card" : ""}">
-      <a class="product-media" href="#/product/${encodeURIComponent(product.handle)}" aria-label="View ${escapeAttr(product.title)}">
-        ${featured ? "" : `<span class="availability-badge ${product.available ? "" : "sold-out"}">${product.available ? "Available" : "Sold out"}</span>`}
+    <article class="product-card ${featured ? "featured-card" : ""} ${product.available ? "" : "is-sold-out"}">
+      <a class="product-media" href="#/product/${encodeURIComponent(product.handle)}" aria-label="View ${escapeAttr(product.title)}${product.available ? "" : " (sold out)"}">
+        ${featured && product.available ? "" : `<span class="availability-badge ${product.available ? "" : "sold-out"}">${product.available ? "Available" : "Sold out"}</span>`}
         ${image ? `<img src="${escapeAttr(productImageSrc(image))}" alt="${escapeAttr(image.alt || product.title)}" loading="lazy" />` : ""}
       </a>
       ${featured ? "" : `<button class="wishlist-toggle ${isWishlisted(product.handle) ? "active" : ""}" type="button" data-action="toggle-wishlist" data-handle="${escapeAttr(product.handle)}" aria-label="${isWishlisted(product.handle) ? "Remove" : "Add"} ${escapeAttr(product.title)} ${isWishlisted(product.handle) ? "from" : "to"} wishlist" aria-pressed="${isWishlisted(product.handle)}">${isWishlisted(product.handle) ? "♥" : "♡"}</button>`}
@@ -572,7 +565,7 @@ function productCard(product, featured = false) {
         </a>
         ${product.available ? `
           <${canQuickAdd ? "button" : "a"} class="quick-action" ${canQuickAdd ? `type="button" data-action="quick-add" data-handle="${escapeAttr(product.handle)}"` : `href="#/product/${encodeURIComponent(product.handle)}"`} aria-label="${canQuickAdd ? "Add" : "Choose options for"} ${escapeAttr(product.title)}">${featured ? cartGlyph() : canQuickAdd ? "+" : "→"}</${canQuickAdd ? "button" : "a"}>
-        ` : `<a class="quick-action" href="#/product/${encodeURIComponent(product.handle)}" aria-label="View ${escapeAttr(product.title)}">→</a>`}
+        ` : `<span class="quick-action sold-out-action" aria-label="${escapeAttr(product.title)} is sold out">×</span>`}
       </div>
     </article>
   `;
