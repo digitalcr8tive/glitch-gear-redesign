@@ -2,38 +2,29 @@
   <details class="gh-mobile-menu">
     <summary aria-label="Open navigation">☰</summary>
     <nav aria-label="Mobile navigation">
-      {%- for link in section.settings.menu.links -%}<a href="{{ link.url }}">{{ link.title }}</a>{%- endfor -%}
-      <form class="gh-mobile-search" action="{{ routes.search_url }}" method="get" role="search">
-        <label class="visually-hidden" for="GlitchMobileSearch-{{ section.id }}">Search gear</label>
-        <input id="GlitchMobileSearch-{{ section.id }}" type="search" name="q" placeholder="Search gear..." autocomplete="off">
-        <button type="submit">Search gear</button>
-      </form>
+      <details><summary>Shop</summary>{% if section.settings.shop_menu != blank %}{% for link in section.settings.shop_menu.links %}<a href="{{ link.url }}">{{ link.title }}</a>{% endfor %}{% else %}<a href="{{ routes.all_products_collection_url }}">All gear</a><a href="{{ routes.all_products_collection_url }}?sort_by=created-descending">New arrivals</a>{% endif %}</details>
+      <details><summary>Collections</summary>{% if section.settings.collections_menu != blank %}{% for link in section.settings.collections_menu.links %}<a href="{{ link.url }}">{{ link.title }}</a>{% endfor %}{% else %}{% for collection in collections %}{% unless collection.handle == 'frontpage' %}<a href="{{ collection.url }}">{{ collection.title }}</a>{% endunless %}{% endfor %}{% endif %}</details>
+      <a href="{{ routes.all_products_collection_url }}?sort_by=created-descending">New arrivals</a>
+      <form class="gh-mobile-search" action="{{ routes.search_url }}" method="get" role="search"><label class="visually-hidden" for="GlitchMobileSearch-{{ section.id }}">Search gear</label><input id="GlitchMobileSearch-{{ section.id }}" type="search" name="q" placeholder="Search gear..." autocomplete="off"><button type="submit">Search gear</button></form>
     </nav>
   </details>
-  <a class="gh-logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }} home">
-    {%- if section.settings.logo != blank -%}
-      {{ section.settings.logo | image_url: width: 380 | image_tag: widths: '190,280,380', loading: 'eager', alt: shop.name }}
-    {%- else -%}
-      <span class="gh-logo-fallback">GLITCH<small>GAMING APPAREL</small></span>
-    {%- endif -%}
-  </a>
+  <a class="gh-logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }} home">{% if section.settings.logo != blank %}{{ section.settings.logo | image_url: width: 380 | image_tag: widths: '190,280,380', loading: 'eager', alt: shop.name }}{% else %}<span class="gh-logo-fallback">GLITCH<small>GAMING APPAREL</small></span>{% endif %}</a>
   <nav class="gh-nav" aria-label="Primary navigation">
-    {%- for link in section.settings.menu.links -%}
-      <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}{% if link.links != blank %}<span aria-hidden="true">⌄</span>{% endif %}</a>
-    {%- endfor -%}
+    <div class="gh-nav-menu"><a href="{{ routes.all_products_collection_url }}">Shop</a><button type="button" aria-label="Show shop categories" aria-expanded="false" data-gh-menu-button>⌄</button><div class="gh-nav-dropdown">
+      {% if section.settings.shop_menu != blank %}{% for link in section.settings.shop_menu.links %}<a href="{{ link.url }}">{{ link.title }}</a>{% endfor %}{% else %}<a href="{{ routes.all_products_collection_url }}">All gear</a><a href="{{ routes.all_products_collection_url }}?sort_by=created-descending">New arrivals</a>{% endif %}
+    </div></div>
+    <div class="gh-nav-menu"><a href="{{ routes.collections_url }}">Collections</a><button type="button" aria-label="Show current collections" aria-expanded="false" data-gh-menu-button>⌄</button><div class="gh-nav-dropdown gh-nav-collections">
+      {% if section.settings.collections_menu != blank %}{% for link in section.settings.collections_menu.links %}<a href="{{ link.url }}">{{ link.title }}</a>{% endfor %}{% else %}{% for collection in collections %}{% unless collection.handle == 'frontpage' %}<a href="{{ collection.url }}">{{ collection.title }}</a>{% endunless %}{% endfor %}{% endif %}
+    </div></div>
+    <a href="{{ routes.all_products_collection_url }}?sort_by=created-descending">New arrivals</a>
   </nav>
   <div class="gh-tools">
-    <form class="gh-search" action="{{ routes.search_url }}" method="get" role="search">
-      <label class="visually-hidden" for="GlitchSearch-{{ section.id }}">Search gear</label>
-      <input id="GlitchSearch-{{ section.id }}" type="search" name="q" value="{{ search.terms | escape }}" placeholder="Search gear..." role="combobox" aria-expanded="false" autocomplete="off">
-      <button type="submit" aria-label="Search">{% render 'glitch-icon', icon: 'search' %}</button>
-    </form>
-    {%- if shop.customer_accounts_enabled -%}<a href="{{ routes.account_url }}" aria-label="Customer account">{% render 'glitch-icon', icon: 'account' %}</a>{%- endif -%}
-    {%- if section.settings.show_wishlist and section.settings.wishlist_url != blank -%}<a href="{{ section.settings.wishlist_url }}" aria-label="Wishlist">{% render 'glitch-icon', icon: 'heart' %}</a>{%- endif -%}
+    <form class="gh-search" action="{{ routes.search_url }}" method="get" role="search"><label class="visually-hidden" for="GlitchSearch-{{ section.id }}">Search gear</label><input id="GlitchSearch-{{ section.id }}" type="search" name="q" value="{{ search.terms | escape }}" placeholder="Search gear..." autocomplete="off"><button type="submit" aria-label="Search">{% render 'glitch-icon', icon: 'search' %}</button></form>
+    {% if shop.customer_accounts_enabled %}<a href="{{ routes.account_url }}" aria-label="Customer account">{% render 'glitch-icon', icon: 'account' %}</a>{% endif %}
+    {% if section.settings.show_wishlist and section.settings.wishlist_url != blank %}<a href="{{ section.settings.wishlist_url }}" aria-label="Wishlist">{% render 'glitch-icon', icon: 'heart' %}</a>{% endif %}
     <a class="gh-cart-link" href="{{ routes.cart_url }}" aria-label="Cart with {{ cart.item_count }} items">{% render 'glitch-icon', icon: 'cart' %}<span data-cart-count>{{ cart.item_count }}</span></a>
   </div>
 </header>
-<script src="{{ 'glitch-homepage.js' | asset_url }}" defer="defer"></script>
 
 {% schema %}
 {
@@ -41,11 +32,34 @@
   "tag": "section",
   "class": "gh-header-section",
   "settings": [
-    { "type": "image_picker", "id": "logo", "label": "Official horizontal logo" },
-    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
-    { "type": "checkbox", "id": "show_wishlist", "label": "Show wishlist", "default": false },
-    { "type": "url", "id": "wishlist_url", "label": "Wishlist URL" }
-  ],
-  "presets": [{ "name": "Glitch header" }]
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Official horizontal logo"
+    },
+    {
+      "type": "link_list",
+      "id": "shop_menu",
+      "label": "Shop category menu",
+      "info": "Add T-shirts, hoodies, hats, backpacks, accessories, gift cards, and other product categories."
+    },
+    {
+      "type": "link_list",
+      "id": "collections_menu",
+      "label": "Current collections menu",
+      "info": "Add the collections currently offered by the store."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wishlist",
+      "label": "Show wishlist",
+      "default": false
+    },
+    {
+      "type": "url",
+      "id": "wishlist_url",
+      "label": "Wishlist URL"
+    }
+  ]
 }
 {% endschema %}

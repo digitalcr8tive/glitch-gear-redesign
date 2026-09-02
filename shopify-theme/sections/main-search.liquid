@@ -1,0 +1,13 @@
+<section class="gh-page gh-catalog-page">
+  <header class="gh-page-heading"><span>DATABASE / SEARCH</span><h1>Search gear</h1></header>
+  <form class="gh-page-search" action="{{ routes.search_url }}" method="get" role="search"><label for="GlitchPageSearch">Search products</label><div><input id="GlitchPageSearch" type="search" name="q" value="{{ search.terms | escape }}" placeholder="Title, game, gear..."><button class="gh-button gh-primary" type="submit">Search gear</button></div></form>
+  {% if search.performed %}{% paginate search.results by 24 %}<p class="gh-results-bar">{{ search.results_count }} results for “{{ search.terms }}”</p><div class="gh-product-grid">{% for item in search.results %}{% if item.object_type == 'product' %}{% render 'glitch-product-card', product: item %}{% endif %}{% endfor %}</div>{% render 'glitch-pagination', paginate: paginate %}{% endpaginate %}{% endif %}
+</section>
+{% schema %}
+{
+  "name": "Main search",
+  "settings": [
+
+  ]
+}
+{% endschema %}

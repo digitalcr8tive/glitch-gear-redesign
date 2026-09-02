@@ -8,7 +8,8 @@
 <article class="gh-product-card">
   <a class="gh-product-media" href="{{ product.url }}" aria-label="View {{ product.title | escape }}">
     {%- if product.featured_image != blank -%}
-      {{ product.featured_image | image_url: width: 620 | image_tag: widths: '220,320,440,620', sizes: '(min-width: 1200px) 250px, 218px', loading: 'lazy', alt: product.featured_image.alt | default: product.title }}
+      {%- capture preserved_url -%}{% render 'glitch-product-image', image: product.featured_image, width: 620 %}{%- endcapture -%}
+      <img src="{{ preserved_url | strip }}" alt="{{ product.featured_image.alt | default: product.title | escape }}" width="620" height="620" loading="lazy">
     {%- endif -%}
   </a>
   <div class="gh-product-body">

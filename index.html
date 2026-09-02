@@ -19,7 +19,7 @@
       href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Rajdhani:wght@400;500;600;700&family=Russo+One&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css?v=20260808j" />
+    <link rel="stylesheet" href="./styles.css?v=20260902b" />
   </head>
   <body>
     <a class="skip-link" href="#app">Skip to main content</a>
@@ -54,8 +54,28 @@
       </button>
 
       <nav id="primary-navigation" class="primary-nav" aria-label="Primary navigation">
-        <a href="#/shop">Shop <span aria-hidden="true">⌄</span></a>
-        <a href="#/collections">Collections <span aria-hidden="true">⌄</span></a>
+        <div class="nav-menu" data-nav-menu>
+          <div class="nav-menu-trigger">
+            <a href="#/shop">Shop</a>
+            <button type="button" data-action="toggle-nav-dropdown" aria-expanded="false" aria-label="Show shop categories">⌄</button>
+          </div>
+          <div class="nav-dropdown" aria-label="Shop categories">
+            <a href="#/shop?sort=newest">New arrivals</a>
+            <a href="#/shop?type=T-Shirt">T-shirts</a>
+            <a href="#/shop?type=Hoodie">Hoodies</a>
+            <a href="#/shop?type=Hat">Hats</a>
+            <a href="#/shop?type=Back%20Pack">Backpacks</a>
+            <a href="#/shop?q=accessories">Accessories</a>
+            <a href="https://www.glitchgear.com/products/gift-card">Gift cards</a>
+          </div>
+        </div>
+        <div class="nav-menu" data-nav-menu>
+          <div class="nav-menu-trigger">
+            <a href="#/collections">Collections</a>
+            <button type="button" data-action="toggle-nav-dropdown" aria-expanded="false" aria-label="Show current collections">⌄</button>
+          </div>
+          <div class="nav-dropdown nav-dropdown-collections" data-nav-collections aria-label="Current collections"></div>
+        </div>
         <a href="#/shop?sort=newest">New arrivals</a>
         <a class="mobile-search-link" href="#/shop">Search gear</a>
       </nav>
@@ -158,6 +178,6 @@
 
     <div class="toast" role="status" aria-live="polite" aria-atomic="true" data-toast></div>
 
-    <script type="module" src="./app.js?v=20260808j"></script>
+    <script type="module" src="./app.js?v=20260902b"></script>
   </body>
 </html>

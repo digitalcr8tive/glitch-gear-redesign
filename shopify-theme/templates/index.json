@@ -1,12 +1,76 @@
 {
   "sections": {
-    "announcement": { "type": "glitch-announcement-bar", "settings": {} },
-    "header": { "type": "glitch-header", "settings": {} },
-    "hero": { "type": "glitch-hero", "settings": {} },
-    "collections": { "type": "glitch-iconic-collections", "blocks": { "portal": { "type": "collection", "settings": { "custom_title": "Portal" } }, "fallout": { "type": "collection", "settings": { "custom_title": "Fallout" } }, "bioshock": { "type": "collection", "settings": { "custom_title": "BioShock" } }, "half_life": { "type": "collection", "settings": { "custom_title": "Half-Life" } }, "gears": { "type": "collection", "settings": { "custom_title": "Gears of War" } }, "left_4_dead": { "type": "collection", "settings": { "custom_title": "Left 4 Dead" } } }, "block_order": ["portal", "fallout", "bioshock", "half_life", "gears", "left_4_dead"], "settings": {} },
-    "drops": { "type": "glitch-featured-drops", "settings": {} },
-    "banner": { "type": "glitch-brand-banner", "settings": {} },
-    "footer": { "type": "glitch-footer", "blocks": { "shop": { "type": "menu", "settings": { "heading": "SHOP" } }, "collections": { "type": "menu", "settings": { "heading": "COLLECTIONS" } }, "support": { "type": "menu", "settings": { "heading": "SUPPORT" } }, "company": { "type": "menu", "settings": { "heading": "COMPANY" } } }, "block_order": ["shop", "collections", "support", "company"], "settings": {} }
+    "hero": {
+      "type": "glitch-hero",
+      "settings": {
+      }
+    },
+    "collections": {
+      "type": "glitch-iconic-collections",
+      "blocks": {
+        "portal": {
+          "type": "collection",
+          "settings": {
+            "custom_title": "Portal"
+          }
+        },
+        "fallout": {
+          "type": "collection",
+          "settings": {
+            "custom_title": "Fallout"
+          }
+        },
+        "bioshock": {
+          "type": "collection",
+          "settings": {
+            "custom_title": "BioShock"
+          }
+        },
+        "half_life": {
+          "type": "collection",
+          "settings": {
+            "custom_title": "Half-Life"
+          }
+        },
+        "gears": {
+          "type": "collection",
+          "settings": {
+            "custom_title": "Gears of War"
+          }
+        },
+        "left_4_dead": {
+          "type": "collection",
+          "settings": {
+            "custom_title": "Left 4 Dead"
+          }
+        }
+      },
+      "block_order": [
+        "portal",
+        "fallout",
+        "bioshock",
+        "half_life",
+        "gears",
+        "left_4_dead"
+      ],
+      "settings": {
+      }
+    },
+    "drops": {
+      "type": "glitch-featured-drops",
+      "settings": {
+      }
+    },
+    "banner": {
+      "type": "glitch-brand-banner",
+      "settings": {
+      }
+    }
   },
-  "order": ["announcement", "header", "hero", "collections", "drops", "banner", "footer"]
+  "order": [
+    "hero",
+    "collections",
+    "drops",
+    "banner"
+  ]
 }

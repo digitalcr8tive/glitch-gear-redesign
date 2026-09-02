@@ -1,0 +1,45 @@
+{%- assign selected_variant = product.selected_or_first_available_variant -%}
+<section class="gh-page gh-product-page" data-gh-product>
+  <div class="gh-product-gallery" aria-label="Product images">
+    {%- for image in product.images -%}
+      {%- capture preserved_url -%}{% render 'glitch-product-image', image: image, width: 1400 %}{%- endcapture -%}
+      <figure><img src="{{ preserved_url | strip }}" alt="{{ image.alt | default: product.title | escape }}" width="{{ image.width }}" height="{{ image.height }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"{% if forloop.first %} fetchpriority="high"{% endif %}></figure>
+    {%- endfor -%}
+  </div>
+  <div class="gh-product-panel">
+    <nav class="gh-breadcrumb" aria-label="Breadcrumb"><a href="{{ routes.root_url }}">Home</a><span>/</span><a href="{{ routes.all_products_collection_url }}">Shop</a><span>/</span><span>{{ product.title }}</span></nav>
+    <span class="gh-status">{{ product.type | default: 'Gear' }}</span>
+    <h1>{{ product.title }}</h1>
+    <p class="gh-product-price" data-gh-product-price>{{ selected_variant.price | money }}</p>
+    <p class="gh-availability" data-gh-product-availability>{% if selected_variant.available %}Available in selected option{% else %}Selected option is sold out{% endif %}</p>
+    <div class="gh-description">{{ product.description }}</div>
+    {% form 'product', product, class: 'gh-product-form', data-product-form: '' %}
+      <label for="GlitchVariant-{{ section.id }}">Choose option</label>
+      <select id="GlitchVariant-{{ section.id }}" name="id" data-gh-variant>
+        {%- for variant in product.variants -%}
+          <option value="{{ variant.id }}" data-price="{{ variant.price | money | escape }}" data-available="{{ variant.available }}"{% if variant == selected_variant %} selected{% endif %}>{{ variant.title }} · {{ variant.price | money }}{% unless variant.available %} · Sold out{% endunless %}</option>
+        {%- endfor -%}
+      </select>
+      <label for="GlitchQuantity-{{ section.id }}">Quantity</label>
+      <input id="GlitchQuantity-{{ section.id }}" type="number" name="quantity" value="1" min="1" inputmode="numeric">
+      <button class="gh-button gh-primary" type="submit" name="add"{% unless selected_variant.available %} disabled{% endunless %}>Add gear to cart</button>
+      <p class="gh-form-message" role="status" aria-live="polite" data-gh-form-message></p>
+    {% endform %}
+    <div class="gh-product-notes">
+      <span>Availability and pricing come directly from this Shopify product.</span>
+      {% if section.settings.size_guide != blank %}<a href="{{ section.settings.size_guide.url }}">Open the sizing chart →</a>{% endif %}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Main product",
+  "settings": [
+    {
+      "type": "page",
+      "id": "size_guide",
+      "label": "Sizing chart page"
+    }
+  ]
+}
+{% endschema %}

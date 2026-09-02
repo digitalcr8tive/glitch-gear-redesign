@@ -1,0 +1,27 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Glitch Gear Loadout",
+    "theme_version": "1.0.0",
+    "theme_author": "Digitalcr8tive",
+    "theme_documentation_url": "https://github.com/digitalcr8tive/glitch-gear-redesign",
+    "theme_support_url": "https://github.com/digitalcr8tive/glitch-gear-redesign/issues"
+  },
+  {
+    "name": "Brand settings",
+    "settings": [
+      {
+        "type": "color",
+        "id": "power_lime",
+        "label": "Power lime",
+        "default": "#a3c400"
+      },
+      {
+        "type": "color",
+        "id": "void_black",
+        "label": "Void black",
+        "default": "#020304"
+      }
+    ]
+  }
+]

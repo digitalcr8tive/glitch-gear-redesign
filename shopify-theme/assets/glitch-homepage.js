@@ -17,11 +17,42 @@
 
   document.addEventListener('click', (event) => {
     const arrow = event.target.closest('[data-gh-scroll]');
-    if (!arrow) return;
-    arrow.parentElement.querySelector('[data-gh-rail]')?.scrollBy({
-      left: Number(arrow.dataset.ghScroll) * 260,
-      behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+    if (arrow) {
+      arrow.parentElement.querySelector('[data-gh-rail]')?.scrollBy({
+        left: Number(arrow.dataset.ghScroll) * 260,
+        behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+      });
+    }
+
+    const menuButton = event.target.closest('[data-gh-menu-button]');
+    document.querySelectorAll('.gh-nav-menu.is-open').forEach((menu) => {
+      if (!menuButton || menu !== menuButton.closest('.gh-nav-menu')) {
+        menu.classList.remove('is-open');
+        menu.querySelector('[data-gh-menu-button]')?.setAttribute('aria-expanded', 'false');
+      }
     });
+    if (menuButton) {
+      const menu = menuButton.closest('.gh-nav-menu');
+      const open = menu.classList.toggle('is-open');
+      menuButton.setAttribute('aria-expanded', String(open));
+    }
+  });
+
+  document.addEventListener('change', (event) => {
+    if (event.target.matches('[data-gh-sort]')) {
+      const url = new URL(location.href);
+      url.searchParams.set('sort_by', event.target.value);
+      location.assign(url.toString());
+    }
+    if (event.target.matches('[data-gh-variant]')) {
+      const option = event.target.selectedOptions[0];
+      const panel = event.target.closest('[data-gh-product]');
+      const available = option?.dataset.available === 'true';
+      panel?.querySelector('[data-gh-product-price]')?.replaceChildren(option?.dataset.price || '');
+      panel?.querySelector('[data-gh-product-availability]')?.replaceChildren(available ? 'Available in selected option' : 'Selected option is sold out');
+      const button = panel?.querySelector('[name="add"]');
+      if (button) button.disabled = !available;
+    }
   });
 
   document.addEventListener('submit', async (event) => {
@@ -40,9 +71,11 @@
       if (!response.ok) throw new Error('Unable to add this product.');
       const cart = await fetch(window.Shopify.routes.root + 'cart.js').then((result) => result.json());
       updateCartCount(cart.item_count);
+      form.querySelector('[data-gh-form-message]')?.replaceChildren('Added to your gear.');
       document.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true, detail: { cart } }));
     } catch (error) {
       button.setAttribute('data-error', error.message);
+      form.querySelector('[data-gh-form-message]')?.replaceChildren(error.message);
     } finally {
       button.disabled = false;
       button.removeAttribute('aria-busy');

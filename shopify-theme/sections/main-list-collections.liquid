@@ -1,0 +1,23 @@
+<section class="gh-page gh-catalog-page">
+  <header class="gh-page-heading"><span>ARCHIVE / WORLDS</span><h1>{{ section.settings.heading }}</h1><p>{{ section.settings.description }}</p></header>
+  <div class="gh-list-collections">{% for collection in collections %}{% unless collection.handle == 'frontpage' %}<a href="{{ collection.url }}">{% if collection.featured_image %}{{ collection.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: collection.title }}{% endif %}<span><strong>{{ collection.title }}</strong><small>{{ collection.products_count }} items →</small></span></a>{% endunless %}{% endfor %}</div>
+</section>
+{% schema %}
+{
+  "name": "Collection list",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Choose your universe"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Explore every current Glitch Gear collection."
+    }
+  ]
+}
+{% endschema %}

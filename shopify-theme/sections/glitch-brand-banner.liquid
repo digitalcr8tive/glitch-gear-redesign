@@ -12,13 +12,78 @@
   "tag": "section",
   "class": "gh-banner-section",
   "settings": [
-    { "type": "image_picker", "id": "image", "label": "Banner image" },
-    { "type": "text", "id": "line_one", "label": "First line", "default": "ICONIC WORLDS." },
-    { "type": "text", "id": "line_two", "label": "Second line", "default": "EVERYDAY GEAR." },
-    { "type": "range", "id": "overlay", "label": "Overlay strength", "min": 0, "max": 80, "step": 5, "unit": "%", "default": 30 },
-    { "type": "select", "id": "alignment", "label": "Text alignment", "default": "center", "options": [{"value":"left","label":"Left"},{"value":"center","label":"Center"},{"value":"right","label":"Right"}] },
-    { "type": "select", "id": "mobile_focal_point", "label": "Mobile focal point", "default": "center", "options": [{"value":"left","label":"Left"},{"value":"center","label":"Center"},{"value":"right","label":"Right"}] }
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Banner image"
+    },
+    {
+      "type": "text",
+      "id": "line_one",
+      "label": "First line",
+      "default": "ICONIC WORLDS."
+    },
+    {
+      "type": "text",
+      "id": "line_two",
+      "label": "Second line",
+      "default": "EVERYDAY GEAR."
+    },
+    {
+      "type": "range",
+      "id": "overlay",
+      "label": "Overlay strength",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "default": 30
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Text alignment",
+      "default": "center",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "mobile_focal_point",
+      "label": "Mobile focal point",
+      "default": "center",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    }
   ],
-  "presets": [{ "name": "Glitch cinematic banner" }]
+  "presets": [
+    {
+      "name": "Glitch cinematic banner"
+    }
+  ]
 }
 {% endschema %}

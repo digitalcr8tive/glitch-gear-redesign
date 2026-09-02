@@ -1,0 +1,1 @@
+<section class="gh-page gh-empty"><span>LOADOUT / GIFT CARD</span><h1>{{ gift_card.balance | money }}</h1><p class="gh-gift-code">{{ gift_card.code | format_code }}</p>{% if gift_card.expired %}<p>This gift card has expired.</p>{% endif %}<a class="gh-button gh-primary" href="{{ shop.url }}">Shop Glitch Gear</a></section>

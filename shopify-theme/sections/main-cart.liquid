@@ -1,0 +1,20 @@
+<section class="gh-page gh-cart-page">
+  <header class="gh-page-heading"><span>LOADOUT / CART</span><h1>Your gear</h1></header>
+  {% if cart.empty? %}<div class="gh-empty"><h2>Your cart is empty</h2><a class="gh-button gh-primary" href="{{ routes.all_products_collection_url }}">Browse gear</a></div>{% else %}
+    <form action="{{ routes.cart_url }}" method="post">
+      <div class="gh-cart-items">{% for item in cart.items %}<article class="gh-cart-item">
+        {% if item.image %}{%- capture cart_image_url -%}{% render 'glitch-product-image', image: item.image, width: 360 %}{%- endcapture -%}<a href="{{ item.url }}"><img src="{{ cart_image_url | strip }}" alt="{{ item.image.alt | escape }}" width="180" height="180" loading="lazy"></a>{% endif %}
+        <div><h2><a href="{{ item.url }}">{{ item.product.title }}</a></h2><p>{{ item.variant.title }}</p><p>{{ item.final_price | money }}</p><label>Quantity <input type="number" name="updates[]" value="{{ item.quantity }}" min="0"></label><a href="{{ item.url_to_remove }}">Remove</a></div>
+      </article>{% endfor %}</div>
+      <aside class="gh-cart-summary"><p><span>Subtotal</span><strong>{{ cart.total_price | money }}</strong></p><button class="gh-button gh-secondary" type="submit" name="update">Update cart</button><button class="gh-button gh-primary" type="submit" name="checkout">Continue to checkout</button></aside>
+    </form>
+  {% endif %}
+</section>
+{% schema %}
+{
+  "name": "Main cart",
+  "settings": [
+
+  ]
+}
+{% endschema %}

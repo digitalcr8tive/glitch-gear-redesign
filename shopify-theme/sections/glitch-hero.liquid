@@ -2,6 +2,8 @@
   <div class="gh-hero-model gh-left">
     {%- if section.settings.left_model != blank -%}
       {{ section.settings.left_model | image_url: width: 1200 | image_tag: widths: '480,720,960,1200', sizes: '(min-width: 768px) 30vw, 50vw', loading: 'eager', fetchpriority: 'high', alt: section.settings.left_model_alt }}
+    {%- else -%}
+      <img src="{{ 'glitch-hero-woman.png' | asset_url }}" width="1200" height="700" loading="eager" fetchpriority="high" alt="{{ section.settings.left_model_alt | escape }}">
     {%- endif -%}
   </div>
   <div class="gh-hero-copy">
@@ -15,6 +17,8 @@
   <div class="gh-hero-model gh-right">
     {%- if section.settings.right_model != blank -%}
       {{ section.settings.right_model | image_url: width: 1200 | image_tag: widths: '480,720,960,1200', sizes: '(min-width: 768px) 30vw, 50vw', loading: 'eager', fetchpriority: 'high', alt: section.settings.right_model_alt }}
+    {%- else -%}
+      <img src="{{ 'glitch-hero-man.png' | asset_url }}" width="1200" height="700" loading="eager" fetchpriority="high" alt="{{ section.settings.right_model_alt | escape }}">
     {%- endif -%}
   </div>
   {%- if section.settings.show_hud -%}<div class="gh-hud" aria-hidden="true"><span>XP +250</span><span>LVL 20</span><i></i></div>{%- endif -%}
@@ -26,21 +30,90 @@
   "tag": "section",
   "class": "gh-hero-section",
   "settings": [
-    { "type": "image_picker", "id": "left_model", "label": "Left model" },
-    { "type": "text", "id": "left_model_alt", "label": "Left model alt text", "default": "Woman wearing Glitch gaming apparel" },
-    { "type": "image_picker", "id": "right_model", "label": "Right model" },
-    { "type": "text", "id": "right_model_alt", "label": "Right model alt text", "default": "Man wearing Glitch gaming apparel" },
-    { "type": "image_picker", "id": "background", "label": "Optional hero background" },
-    { "type": "text", "id": "heading_one", "label": "Heading line one", "default": "WEAR" },
-    { "type": "text", "id": "heading_two", "label": "Heading line two", "default": "THE GAME." },
-    { "type": "text", "id": "supporting_one", "label": "Supporting line one", "default": "Game-inspired apparel for players." },
-    { "type": "text", "id": "supporting_two", "label": "Supporting line two", "default": "Designed to stand out. Made to last." },
-    { "type": "text", "id": "primary_label", "label": "Primary button label", "default": "SHOP ALL GEAR" },
-    { "type": "url", "id": "primary_url", "label": "Primary button URL" },
-    { "type": "text", "id": "secondary_label", "label": "Secondary button label", "default": "EXPLORE COLLECTIONS" },
-    { "type": "url", "id": "secondary_url", "label": "Secondary button URL" },
-    { "type": "checkbox", "id": "show_hud", "label": "Show decorative HUD", "default": true }
+    {
+      "type": "image_picker",
+      "id": "left_model",
+      "label": "Left model"
+    },
+    {
+      "type": "text",
+      "id": "left_model_alt",
+      "label": "Left model alt text",
+      "default": "Woman wearing Glitch gaming apparel"
+    },
+    {
+      "type": "image_picker",
+      "id": "right_model",
+      "label": "Right model"
+    },
+    {
+      "type": "text",
+      "id": "right_model_alt",
+      "label": "Right model alt text",
+      "default": "Man wearing Glitch gaming apparel"
+    },
+    {
+      "type": "image_picker",
+      "id": "background",
+      "label": "Optional hero background"
+    },
+    {
+      "type": "text",
+      "id": "heading_one",
+      "label": "Heading line one",
+      "default": "WEAR"
+    },
+    {
+      "type": "text",
+      "id": "heading_two",
+      "label": "Heading line two",
+      "default": "THE GAME."
+    },
+    {
+      "type": "text",
+      "id": "supporting_one",
+      "label": "Supporting line one",
+      "default": "Game-inspired apparel for players."
+    },
+    {
+      "type": "text",
+      "id": "supporting_two",
+      "label": "Supporting line two",
+      "default": "Designed to stand out. Made to last."
+    },
+    {
+      "type": "text",
+      "id": "primary_label",
+      "label": "Primary button label",
+      "default": "SHOP ALL GEAR"
+    },
+    {
+      "type": "url",
+      "id": "primary_url",
+      "label": "Primary button URL"
+    },
+    {
+      "type": "text",
+      "id": "secondary_label",
+      "label": "Secondary button label",
+      "default": "EXPLORE COLLECTIONS"
+    },
+    {
+      "type": "url",
+      "id": "secondary_url",
+      "label": "Secondary button URL"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_hud",
+      "label": "Show decorative HUD",
+      "default": true
+    }
   ],
-  "presets": [{ "name": "Glitch three-column hero" }]
+  "presets": [
+    {
+      "name": "Glitch three-column hero"
+    }
+  ]
 }
 {% endschema %}

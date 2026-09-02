@@ -1,0 +1,16 @@
+<section class="gh-page gh-catalog-page">
+  <header class="gh-page-heading"><span>COLLECTION / ACTIVE</span><h1>{{ collection.title }}</h1>{% if collection.description != blank %}<div>{{ collection.description }}</div>{% endif %}</header>
+  {% paginate collection.products by 24 %}
+    <div class="gh-results-bar"><span>{{ collection.products_count }} items</span><label>Sort by <select data-gh-sort>{% for option in collection.sort_options %}<option value="{{ option.value | escape }}"{% if option.value == collection.sort_by %} selected{% endif %}>{{ option.name }}</option>{% endfor %}</select></label></div>
+    <div class="gh-product-grid">{% for product in collection.products %}{% render 'glitch-product-card', product: product %}{% else %}<p>No products are currently published in this collection.</p>{% endfor %}</div>
+    {% render 'glitch-pagination', paginate: paginate %}
+  {% endpaginate %}
+</section>
+{% schema %}
+{
+  "name": "Main collection",
+  "settings": [
+
+  ]
+}
+{% endschema %}
