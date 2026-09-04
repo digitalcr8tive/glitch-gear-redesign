@@ -209,7 +209,7 @@ function renderHome() {
     {
       title: "BioShock",
       handle: "bioshock",
-      image: bioshockProduct?.images[0] ? productImageSrc(bioshockProduct.images[0]) : "",
+      image: bioshockProduct?.images[0]?.src || "",
       href: "#/shop?q=bioshock",
       synthetic: true,
     },
@@ -230,9 +230,7 @@ function renderHome() {
   app.innerHTML = `
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero-frame hero-frame-left" aria-hidden="true"></div>
-      <div class="hero-model left">
-        <img src="assets/hero-woman.png" alt="Woman wearing a Fallout Vault Boy T-shirt" loading="eager" fetchpriority="high" />
-      </div>
+      <div class="hero-model left" role="img" aria-label="Woman wearing a Fallout Vault Boy T-shirt" style="--model-image:url('${escapeAttr(store.brand.heroModels[0])}')"></div>
       <div class="hero-copy">
         <h1 id="hero-title"><span class="hero-line-white">WEAR</span><span class="hero-line-lime">THE GAME.</span></h1>
         <p>Game-inspired apparel for players.<br />Designed to stand out. Made to last.</p>
@@ -241,9 +239,7 @@ function renderHome() {
           <a class="secondary-button" href="#/collections">Explore collections</a>
         </div>
       </div>
-      <div class="hero-model right">
-        <img src="assets/hero-man.png" alt="Man wearing a Portal Songbird T-shirt" loading="eager" fetchpriority="high" />
-      </div>
+      <div class="hero-model right" role="img" aria-label="Man wearing a Portal Songbird T-shirt" style="--model-image:url('${escapeAttr(store.brand.heroModels[1])}')"></div>
       <div class="hero-frame hero-frame-right" aria-hidden="true"></div>
       <div class="hero-stat" aria-hidden="true">
         <span>XP +250</span>
