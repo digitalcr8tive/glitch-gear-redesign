@@ -34,7 +34,7 @@ app.innerHTML = `
 `;
 
 try {
-  const response = await fetch("./data/store.json?v=20260902a");
+  const response = await fetch("./data/store.json?v=20260905d");
   store = response.ok ? await response.json() : await loadLiveStore();
   bindEvents();
   populateNavigation();
@@ -1084,7 +1084,7 @@ async function loadLiveStore() {
       .filter((collection) => collection.handle !== "frontpage")
       .map((collection) => ({
         id: collection.id,
-        title: collection.title,
+        title: collection.handle === "watch_dogs" ? "Watch Dogs" : collection.title,
         handle: collection.handle,
         description: textFromHTML(collection.body_html),
         image: collection.image?.src || null,

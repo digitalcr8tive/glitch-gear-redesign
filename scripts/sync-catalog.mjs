@@ -130,7 +130,7 @@ const store = {
     .filter((collection) => collection.handle !== "frontpage")
     .map((collection) => ({
       id: collection.id,
-      title: collection.title,
+      title: collection.handle === "watch_dogs" ? "Watch Dogs" : collection.title,
       handle: collection.handle,
       description: textFromHTML(collection.body_html),
       image: collection.image?.src || null,
