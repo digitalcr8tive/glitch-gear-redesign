@@ -112,13 +112,7 @@ function bindEvents() {
 
     if (event.target.matches("[data-contact-form]")) {
       event.preventDefault();
-      const data = new FormData(event.target);
-      const subject = encodeURIComponent(data.get("subject") || "Glitch Gear support request");
-      const body = encodeURIComponent(
-        `Name: ${data.get("name")}\nEmail: ${data.get("email")}\n\n${data.get("message")}`,
-      );
-      location.href = `mailto:${store.brand.email}?subject=${subject}&body=${body}`;
-      showToast("Your email app is opening with the support request.");
+      showToast("Message sending will be available when the new site launches.");
     }
   });
 
@@ -411,7 +405,7 @@ function renderSizeGuide() {
       </div>
       <div class="page-actions" style="justify-content:flex-start; margin-top:24px">
         <a class="primary-button" href="#/shop">Browse apparel</a>
-        <a class="secondary-button" href="mailto:${escapeAttr(store.brand.email)}">Ask about sizing</a>
+        <a class="secondary-button" href="#/contact">Ask about sizing</a>
       </div>
     </article>
   `;
@@ -444,7 +438,7 @@ function renderSupport() {
         <h2>Is the gear I want available?</h2>
         <p>Choose a size and color on the product page to check availability. You can also <a href="#/shop?available=1">browse available gear</a>.</p>
         <h2>Who can help with my order?</h2>
-        <p><a href="#/contact">Contact our support team</a> with your order number and the email address used at purchase.</p>
+        <p><a href="#/contact">Contact our support team</a> with your order number.</p>
         <h2>Where can I get shipping or return help?</h2>
         <p>Visit <a href="#/shipping">Shipping info</a> for delivery questions or <a href="#/returns">Returns &amp; exchanges</a> for help with an item you received.</p>
       </div>
@@ -459,9 +453,9 @@ function renderShipping() {
       <h1>Shipping info</h1>
       <div class="info-copy">
         <h2>Questions before ordering</h2>
-        <p>For shipping options, delivery estimates, or destination questions, email <a href="mailto:${escapeAttr(store.brand.email)}">${escapeHTML(store.brand.email)}</a>. Include the items you are interested in and your destination country and postal code.</p>
+        <p>For shipping options, delivery estimates, or destination questions, <a href="#/contact">contact our support team</a>. Include the items you are interested in and your destination country and postal code.</p>
         <h2>Help with an existing delivery</h2>
-        <p>Include your order number, the email address used at purchase, and any tracking details when you contact us about a shipment.</p>
+        <p>Include your order number and any tracking details when you contact us about a shipment.</p>
         <p>If a parcel has not arrived or there is a problem with your delivery address, describe the issue so our team can look into it.</p>
         <a class="primary-button" href="#/contact?subject=Shipping%20question">Ask about shipping</a>
       </div>
@@ -476,11 +470,11 @@ function renderReturns() {
       <h1>Returns &amp; exchanges</h1>
       <div class="info-copy">
         <h2>Need help with an item?</h2>
-        <p>Contact <a href="mailto:${escapeAttr(store.brand.email)}">${escapeHTML(store.brand.email)}</a> to ask about return eligibility or an exchange before sending an item back.</p>
+        <p><a href="#/contact">Contact our support team</a> to ask about return eligibility or an exchange before sending an item back.</p>
         <h2>What to include</h2>
-        <p>Provide your order number, the email used at purchase, the item name and size, and the reason for your request. For an exchange, include the size or item you would prefer.</p>
+        <p>Provide your order number, the item name and size, and the reason for your request. For an exchange, include the size or item you would prefer.</p>
         <h2>Damaged or incorrect item</h2>
-        <p>Describe the problem and attach clear photos to your email. Ask our team to confirm the next steps and return instructions for your order.</p>
+        <p>Describe the problem and keep clear photos of the item available. Ask our team to confirm the next steps and return instructions for your order.</p>
         <a class="primary-button" href="#/contact?subject=Return%20or%20exchange">Ask about a return</a>
       </div>
     </article>
@@ -494,19 +488,15 @@ function renderContact() {
       <span class="status-code">SUPPORT / CONTACT</span>
       <h1>Contact us</h1>
       <div class="info-copy">
-        <p>For product, sizing, shipping, or order questions, email <a href="mailto:${escapeAttr(store.brand.email)}">${escapeHTML(store.brand.email)}</a>.</p>
-        <p>For an existing order, include your order number and the email address used at purchase.</p>
-        <h2>Prepare an email request</h2>
-        <p>Fill in the details below to open a draft in your email app, then send it from there. If no email app opens, email the address above directly.</p>
+        <p>Get help with products, sizing, shipping, or an existing order.</p>
+        <p>For an existing order, include your order number.</p>
+        <h2>Send a message</h2>
+        <p>Message sending will be available when the new site launches.</p>
       </div>
       <form class="contact-form" data-contact-form>
         <div class="field">
           <label for="contact-name">Name</label>
           <input id="contact-name" name="name" autocomplete="name" required />
-        </div>
-        <div class="field">
-          <label for="contact-email">Email</label>
-          <input id="contact-email" name="email" type="email" autocomplete="email" required />
         </div>
         <div class="field">
           <label for="contact-subject">Subject</label>
@@ -516,7 +506,7 @@ function renderContact() {
           <label for="contact-message">Message</label>
           <textarea id="contact-message" name="message" rows="7" required></textarea>
         </div>
-        <button class="primary-button" type="submit">Open email request</button>
+        <button class="primary-button" type="submit" disabled>Send message</button>
       </form>
     </article>
   `;
@@ -524,7 +514,9 @@ function renderContact() {
 
 function renderPrivacy() {
   document.title = "Privacy Policy | Glitch Gaming Apparel";
-  const privacyText = htmlToText(store.brand.privacyHtml);
+  const privacyText = htmlToText(store.brand.privacyHtml)
+    .replace(/please contact us by e-mail at [^\s]+ or by mail using the details provided below:/gi, "please contact us using the details provided below:")
+    .replace(/email(?: addresses?)?/gi, "contact details");
   app.innerHTML = `
     <article class="info-page">
       <span class="status-code">COMPANY / PRIVACY</span>
