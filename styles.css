@@ -4751,7 +4751,11 @@ body {
   display: none;
 }
 
-.hero-model.left { background-image: url("assets/hero-woman.png"); }
+.hero-model.left {
+  background-image: url("assets/hero-woman-hands.webp");
+  /* The dark matte blends into the scene without erasing pale fingertips. */
+  mix-blend-mode: lighten;
+}
 .hero-model.right { background-image: url("assets/hero-man.png"); }
 
 /* Match the other franchise reveals, including keyboard navigation. */
