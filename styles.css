@@ -4723,3 +4723,63 @@ body {
   .quick-action:active,
   .filter-toggle:active { filter: brightness(1.18); }
 }
+
+/* Homepage polish: light the scene behind the cutouts, never over their hands. */
+.hero {
+  background:
+    radial-gradient(ellipse at 15% 55%, #273019 0, transparent 34%),
+    radial-gradient(ellipse at 85% 55%, #273019 0, transparent 34%),
+    linear-gradient(115deg, transparent 23%, #a3c4000a 23.1%, transparent 23.3%),
+    linear-gradient(65deg, transparent 76%, #a3c4000a 76.1%, transparent 76.3%),
+    #040605;
+  background-size: auto;
+}
+
+.hero-model.left,
+.hero-model.right {
+  background-image: var(--model-image);
+  background-color: transparent;
+  background-blend-mode: normal;
+  filter: none;
+  mask-image: none;
+  background-size: auto min(302px, 24vw);
+  background-position: center bottom;
+}
+
+.hero-model::before,
+.hero::after {
+  display: none;
+}
+
+.hero-model.left { background-image: url("assets/hero-woman.png"); }
+.hero-model.right { background-image: url("assets/hero-man.png"); }
+
+/* Match the other franchise reveals, including keyboard navigation. */
+.home-collection-card:hover img,
+.home-collection-card:focus-visible img {
+  opacity: 1;
+  filter: none;
+  transform: scale(1.045);
+}
+
+@media (max-width: 700px) {
+  .hero {
+    height: auto;
+    min-height: 0;
+    grid-template-rows: auto clamp(120px, 40vw, 260px);
+  }
+
+  .hero-model.left,
+  .hero-model.right {
+    min-height: 0;
+    background-size: auto 100%;
+    background-position: center bottom;
+  }
+
+  .hero-copy { padding-bottom: 26px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-collection-card:hover img,
+  .home-collection-card:focus-visible img { transform: none; }
+}
