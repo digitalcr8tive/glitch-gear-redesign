@@ -200,18 +200,14 @@ function render() {
 
 function renderHome() {
   document.title = "Glitch Gaming Apparel | Wear the Game";
-  const bioshockProduct = store.products.find((product) =>
-    product.tags.some((tag) => tag.toLowerCase().includes("bioshock")),
-  );
   const orderedCollections = [
     collectionByHandle("portal"),
     collectionByHandle("fallout-4"),
     {
       title: "BioShock",
       handle: "bioshock",
-      image: bioshockProduct?.images[0]?.src || "",
+      image: "assets/bioshock-title.jpg",
       href: "#/shop?q=bioshock",
-      synthetic: true,
     },
     collectionByHandle("half-life-2"),
     collectionByHandle("gears-of-war"),
