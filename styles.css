@@ -4783,3 +4783,8 @@ body {
   .home-collection-card:hover img,
   .home-collection-card:focus-visible img { transform: none; }
 }
+
+.info-copy .primary-button {
+  color: var(--void);
+  text-decoration: none;
+}
